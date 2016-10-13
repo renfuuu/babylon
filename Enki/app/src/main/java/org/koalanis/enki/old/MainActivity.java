@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity{
 
     private GLView mGLView;
 
+
     private final int OPENGL_VERSION = 2;
 
     @Override

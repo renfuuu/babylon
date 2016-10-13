@@ -12,6 +12,7 @@ import java.util.Arrays;
 /**
  * Created by kaleb on 8/10/16.
  */
+
 public class Hexagon {
 
 
@@ -171,7 +172,6 @@ public class Hexagon {
         GLES20.glUseProgram(mProgram);
         if(pColor != null)
             mColor = pColor;
-
 
         // Enable a handle to the triangle mVertices
         GLES20.glEnableVertexAttribArray(uVertexPosition);

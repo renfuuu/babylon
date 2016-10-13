@@ -1,0 +1,44 @@
+package org.koalanis.enki.gfx;
+
+import android.opengl.Matrix;
+
+/**
+ * Created by kaleb on 11/10/16.
+ */
+public class Model {
+
+    private float[] modelMatrix = new float[16];
+    private float[] translate = new float[16];
+    private float[] scale = new float[16];
+    private float[] rotation = new float[16];
+
+
+
+    public Model() {
+    }
+
+    public void translate(float x, float y, float z) {
+        Matrix.translateM(translate, 0, x, y, z);
+    }
+
+    public void scale(float x, float y, float z) {
+        Matrix.scaleM(scale, 0, x,y,z);
+    }
+
+    public void scale(float s) {
+        Matrix.scaleM(scale, 0, s,s,s);
+    }
+
+    public void rotate(float theta) {
+        Matrix.rotateM(rotation, 0, theta, 0.f,0.f,1.f);
+    }
+
+    public float[] getModelMatrix() {
+        Matrix.multiplyMM(modelMatrix, 0, rotation, 0, translate, 0);
+        Matrix.multiplyMM(modelMatrix, 0, scale, 0, modelMatrix, 0);
+        return modelMatrix;
+    }
+
+
+
+}
