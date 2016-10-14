@@ -17,8 +17,8 @@ import org.koalanis.enki.MainRenderer;
 public class RenderActivity extends Activity{
 
     private GLSurfaceView mSurfaceView;
-    private MainRenderer mRenderer;
-
+//    private MainRenderer mRenderer;
+    private SimpleRenderer mRenderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,10 @@ public class RenderActivity extends Activity{
         final ConfigurationInfo info = manager.getDeviceConfigurationInfo();
         if(info.reqGlEsVersion >= 0x20000) {
             mSurfaceView.setEGLContextClientVersion(2);
-            mRenderer = new MainRenderer(getApplicationContext());
+
+//            mRenderer = new MainRenderer(getApplicationContext());
+            mRenderer = new SimpleRenderer(getApplicationContext());
+
             mSurfaceView.setRenderer(mRenderer);
         }
         else {

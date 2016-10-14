@@ -114,8 +114,7 @@ public class Hex {
     }
 
     public Cubic makeCubic(int x, int y, int z) {
-        Cubic c = new Cubic(x,y,z);
-        return c;
+        return new Cubic(x,y,z);
     }
 
 }

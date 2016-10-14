@@ -11,6 +11,75 @@ import android.opengl.GLUtils;
  */
 public class Graphics {
 
+    public static final int BYTES_PER_FLOAT = 4;
+    public static final int POSITION_OFFSET = 0;
+    public static final int POS_DATA_SIZE  = 3;
+    public static final int COLOR_OFFSET = 3;
+    public static final int COL_DATA_SIZE = 4;
+    public static final int UV_OFFSET = 7;
+    public static final int UV_DATA_SIZE = 2;
+    public static final int VERTEX_DATA_SIZE = POS_DATA_SIZE+COL_DATA_SIZE+UV_DATA_SIZE;
+    public static final int STRIDE = VERTEX_DATA_SIZE * BYTES_PER_FLOAT;
+
+    public static final float[] getUnitHexagon() {
+        float s = 1.0f;
+        float ns = -1.0f*s;
+        float cos_30 = (float)(Math.cos(Math.toRadians(30)));
+        float sin_30 = (float)(Math.sin(Math.toRadians(30)));
+        return new float[]{
+                // fan of hexagon counter clockwise
+
+                0.0f, 0.0f, 0.0f,
+                0.0f, s, 0.0f,
+                ns*cos_30, s*sin_30, 0.0f,
+
+                0.0f, 0.0f, 0.0f,
+                ns*cos_30, s*sin_30, 0.0f,
+                ns*cos_30, ns*sin_30, 0.0f,
+
+                0.0f, 0.0f, 0.0f,
+                ns*cos_30, ns*sin_30, 0.0f,
+                0.0f, ns, 0.0f,
+
+                0.0f, 0.0f, 0.0f,
+                0.0f, ns, 0.0f,
+                s*cos_30, ns*sin_30, 0.0f,
+
+                0.0f, 0.0f, 0.0f,
+                s*cos_30, ns*sin_30, 0.0f,
+                s*cos_30, s*sin_30, 0.0f,
+
+                0.0f, 0.0f, 0.0f,
+                s*cos_30, s*sin_30, 0.0f,
+                0.f, s, 0.0f,};
+
+    }
+
+
+    public static final String vertexShader = "uniform mat4 u_Model;"
+            +"uniform mat4 u_View;"
+            +"uniform mat4 u_Persp;"
+            +"attribute vec3 a_Position;"
+            +"attribute vec4 a_Color;"
+            +"attribute vec2 a_UV;"
+            +"varying vec4 v_Color;"
+            +"varying vec2 v_UV;"
+            +"void main() {"
+            +" v_Color = a_Color;"
+            +" v_UV = a_UV;"
+            +" mat4 MVP = u_Persp*u_View*u_Model;"
+            +" gl_Position = MVP * vec4(a_Position, 1.0f);"
+            +"}";
+
+
+    public static final String fragmentShader ="precision mediump float;"
+            +"varying vec4 v_Color;"
+            +"uniform sampler2D u_Texture;"
+            +"varying vec2 v_UV;"
+            +"void main() {"
+            +" gl_FragColor = v_Color * texture2D(u_Texture, v_UV);"
+            +"}";
+
     public static int loadShader(int type, String shaderCode){
 
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)

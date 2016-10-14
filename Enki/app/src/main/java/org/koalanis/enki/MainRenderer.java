@@ -38,7 +38,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
                     +"void main() {"
                     +" v_Color = a_Color;"
                     +" v_UV = a_UV;"
-                    +" gl_Position = u_Matrix.scaleM(scale, 0, x,y,z);MVPMatrix * vec4(a_Position, 1.0f);"
+                    +" gl_Position = u_MVPMatrix * vec4(a_Position, 1.0f);"
                     +"}";
 
     final private int BYTES_PER_FLOAT = 4;
@@ -142,8 +142,6 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         final float far = 10.0f;
         Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
     }
-
-
 
     private float[] mMVPMatrix = new float[16];
     private float[] mModelMatrix = new float[16];

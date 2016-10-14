@@ -15,6 +15,11 @@ public class Model {
 
 
     public Model() {
+        Matrix.setIdentityM(translate,0);
+        Matrix.setIdentityM(scale,0);
+        Matrix.setIdentityM(rotation,0);
+        Matrix.setIdentityM(modelMatrix,0);
+
     }
 
     public void translate(float x, float y, float z) {
