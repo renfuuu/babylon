@@ -11,36 +11,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cs371m.tardibear.raisho.CoverLetter"
-    tools:showIn="@layout/activity_cover">
+    tools:showIn="@layout/activity_cover"
+    android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Letters to Babylon"
-        android:textSize="75sp"
-        android:id="@+id/text_title"/>
+        android:text="@string/title_activity_main"
+        android:gravity="center"
+        android:textSize="60sp"
+        android:id="@+id/text_title"
+        android:paddingBottom="20dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:text="Play Game"
         android:layout_below="@id/text_title"
         android:id="@+id/button_play"
+        android:layout_centerInParent="true"
         />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:text="Load"
         android:id="@+id/button_load"
+        android:layout_centerInParent="true"
         android:layout_below="@id/button_play"
         />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
         android:text="Collectables"
         android:id="@+id/button_collectables"
+        android:layout_centerInParent="true"
         android:layout_below="@id/button_load"
         />
 </RelativeLayout>

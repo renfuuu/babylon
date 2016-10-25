@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Raisho</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Letters from Babylon</string>
 </resources>
