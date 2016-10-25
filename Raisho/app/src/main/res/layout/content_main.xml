@@ -16,6 +16,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game Activity"/>
+        android:text="Game Activity"
+        android:id="@+id/temp"/>
+
+    <cs371m.tardibear.raisho.GameView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_gameframe"
+        android:layout_below="@id/temp"/>
 
 </RelativeLayout>
