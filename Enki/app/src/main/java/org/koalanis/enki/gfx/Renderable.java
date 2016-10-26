@@ -10,10 +10,12 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -52,7 +54,7 @@ public class Renderable {
 
     public Model getModel() {return model;}
 
-    public void draw(Shader shader, int texture, RenderContext rc) {
+    public void draw(Shader shader, int texture, RenderContext rc, Model pModel, float[] pColor) {
         shader.use();
         //use pos data
         vertexData.position(Graphics.POSITION_OFFSET);
@@ -102,15 +104,18 @@ public class Renderable {
         GLES20.glUniformMatrix4fv(  shader.get("u_View"),
                 1,
                 false,
-                rc.getCamera().getViewMatrix(),
+                rc.getCamera().createViewMatrix(),
                 0);
 
         //pass model matrix here
-        GLES20.glUniformMatrix4fv(  shader.get("u_Model"),
-                1,
-                false,
-                model.getModelMatrix(),
-                0);
+        if(pModel == null) {
+            assert(false);
+            GLES20.glUniformMatrix4fv(shader.get("u_Model"), 1, false, model.getModelMatrix(), 0);
+        }
+        else
+            GLES20.glUniformMatrix4fv(shader.get("u_Model"),1,false, pModel.createModelMatrix(),0);
+
+        GLES20.glUniform4fv(shader.get("u_Color"), 1, pColor, 0);
 
         // render
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, nVertices);

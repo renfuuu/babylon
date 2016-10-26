@@ -14,9 +14,13 @@ import org.koalanis.enki.gfx.Graphics;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import org.koalanis.enki.gfx.Model;
 import org.koalanis.enki.gfx.RenderContext;
 import org.koalanis.enki.gfx.Renderable;
 import org.koalanis.enki.gfx.Shader;
+import org.koalanis.enki.hex.Hex;
+import org.koalanis.enki.hex.HexGrid;
+import org.koalanis.enki.hex.HexTile;
 
 import java.util.ArrayList;
 
@@ -32,10 +36,18 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
     private Shader shader;
 
     private float[] data;
+    private HexGrid grid;
 
+    private boolean randomColorVertex = false;
+    private boolean textured = false;
 
+    public HexGrid getGrid() {
+        return grid;
+    }
 
     public SimpleRenderer(Context context) {
+
+        grid = new HexGrid(50,50,1.0f);
         parentContext = context;
         renderContext = new RenderContext();
         data = new float[18*Graphics.VERTEX_DATA_SIZE];
@@ -48,23 +60,36 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
             temp.add(hex[3*i+1]);
             temp.add(hex[3*i+2]);
 
-            temp.add((float)Math.random());
-            temp.add((float)Math.random());
-            temp.add((float)Math.random());
-            temp.add(1.0f);
+            if(randomColorVertex) {
+                temp.add((float)Math.random());
+                temp.add((float)Math.random());
+                temp.add((float)Math.random());
+            }
+            else {
+                temp.add(1.0f);
+                temp.add(1.0f);
+                temp.add(1.0f);
+                temp.add(1.0f);
+            }
 
             if(hex[3*i] == hex[3*i+1]) {
                 temp.add(0.5f);
                 temp.add(0.f);
             }
             else {
-                if(hex[3*i] < hex[3*i+1]) {
-                    temp.add(0.0f);
-                    temp.add(1.f);
+                if(textured) {
+                    if(hex[3*i] < hex[3*i+1]) {
+                        temp.add(0.0f);
+                        temp.add(1.f);
+                    }
+                    else{
+                        temp.add(1.f);
+                        temp.add(1.f);
+                    }
                 }
-                else{
-                    temp.add(1.f);
-                    temp.add(1.f);
+                else {
+                    temp.add(0.0f);
+                    temp.add(0.0f);
                 }
             }
             i+=1;
@@ -76,6 +101,11 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         }
 
     }
+
+    public RenderContext getRenderContext() {
+        return renderContext;
+    }
+
     private int mTextureDataHandle;
 
 
@@ -110,6 +140,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         cam.setUp(upX, upY, upZ);
 
         renderContext.setCamera(cam);
+        renderContext.getCamera().createViewMatrix();
         renderable = new Renderable(data);
 
         shader = new Shader();
@@ -118,7 +149,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         shader.attach(GLES20.GL_FRAGMENT_SHADER, Graphics.fragmentShader);
 
         String[] attrs = {"a_Position", "a_Color", "a_UV"};
-        String[] unis = {"u_View", "u_Persp", "u_Model", "u_Texture"};
+        String[] unis = {"u_View", "u_Persp", "u_Model", "u_Texture", "u_Color"};
 
 
         shader.compile(attrs,unis);
@@ -135,13 +166,19 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         renderContext.update();
     }
 
-
-
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        for (HexTile hexTile:
+                grid.map.values()) {
+            float[] pos = grid.hexToPixel(hexTile);
+            Model t = new Model();
+            t.setTranslate(pos[0]-5,pos[1]-5,0.0f);
+            t.setScale(.25f);
+            t.createModelMatrix();
+            renderable.draw(shader, mTextureDataHandle, renderContext,t, hexTile.getColor());
 
-        renderable.draw(shader, mTextureDataHandle, renderContext);
+        }
     }
 
     public void perturbTriangle() {

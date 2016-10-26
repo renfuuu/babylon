@@ -57,6 +57,7 @@ public class Graphics {
 
 
     public static final String vertexShader = "uniform mat4 u_Model;"
+            +"uniform vec4 u_Color;"
             +"uniform mat4 u_View;"
             +"uniform mat4 u_Persp;"
             +"attribute vec3 a_Position;"
@@ -65,7 +66,7 @@ public class Graphics {
             +"varying vec4 v_Color;"
             +"varying vec2 v_UV;"
             +"void main() {"
-            +" v_Color = a_Color;"
+            +" v_Color = a_Color*u_Color;"
             +" v_UV = a_UV;"
             +" mat4 MVP = u_Persp*u_View*u_Model;"
             +" gl_Position = MVP * vec4(a_Position, 1.0f);"
