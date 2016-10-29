@@ -18,6 +18,8 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
     private GLSurfaceView mSurfaceView;
 //    private MainRenderer mRenderer;
     private SimpleRenderer mRenderer;
+    private boolean continueMusic;
+    private BackgroundMusic bgm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,27 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
             }
         });
 
+        continueMusic = true;
+        bgm = new BackgroundMusic();
+        bgm.start(this, bgm.MUSIC_GAME, true);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mSurfaceView.onResume();
+        continueMusic = false;
+        BackgroundMusic.start(this, bgm.MUSIC_GAME);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mSurfaceView.onPause();
+        if (!continueMusic) {
+            bgm.pause();
+        }
     }
 
     private float  prevX;

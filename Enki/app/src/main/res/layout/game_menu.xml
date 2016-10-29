@@ -19,10 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:text="Play Game"
-        android:layout_below="@id/text_title"
         android:id="@+id/button_play"
-        android:layout_centerInParent="true"
-        />
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="match_parent"
