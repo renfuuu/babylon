@@ -12,9 +12,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="org.tardibear.enki.MainActivity" />
         <activity
-            android:name="org.tardibear.enki.SplashActivity"
+            android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,11 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.tardibear.enki.RenderActivity" />
+        <activity android:name=".RenderActivity" />
         <activity
-            android:name="org.tardibear.enki.IntroActivity"
+            android:name=".IntroActivity"
             android:label="@string/title_activity_intro"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
