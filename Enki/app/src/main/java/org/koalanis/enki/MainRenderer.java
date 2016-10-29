@@ -7,6 +7,7 @@ import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -126,6 +127,7 @@ public class MainRenderer implements GLSurfaceView.Renderer {
         mTextureUniformHandle = GLES20.glGetUniformLocation(programHandle, "u_Texture");
 
         mTextureDataHandle = Graphics.loadTexture(parentContext, R.drawable.smiley_face);
+
     }
 
     private float[] mProjectionMatrix = new float[16];

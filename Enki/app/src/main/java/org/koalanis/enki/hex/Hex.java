@@ -21,6 +21,14 @@ public class Hex {
             this.c = c;
         }
 
+        public int getR() {
+            return r;
+        }
+
+        public int getC() {
+            return c;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

@@ -52,9 +52,12 @@ public class RenderContext {
         final float right = ratio;
         final float bottom = -1.0f;
         final float top = 1.0f;
-        final float near = 1.f;
-        final float far = 10.0f;
-        Matrix.frustumM(perspective, 0, left, right, bottom, top, near, far);
+        final float near = -1.f;
+        final float far = 1.0f;
+
+
+
+        Matrix.orthoM(perspective, 0, left, right, bottom, top, near, far);
 
     }
 }
