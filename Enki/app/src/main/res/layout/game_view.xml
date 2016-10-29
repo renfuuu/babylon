@@ -4,9 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.koalanis.enki.RenderActivity">
+    tools:context="org.tardibear.enki.RenderActivity">
 
-    <org.koalanis.enki.mki.GameView
+    <org.tardibear.enki.mki.GameView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/render_view"/>
