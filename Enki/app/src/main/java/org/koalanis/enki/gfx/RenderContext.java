@@ -53,7 +53,7 @@ public class RenderContext {
         final float bottom = -1.0f;
         final float top = 1.0f;
         final float near = -1.f;
-        final float far = 1.0f;
+        final float far = 10.0f;
 
 
 

@@ -18,15 +18,12 @@ import org.koalanis.enki.gfx.Model;
 import org.koalanis.enki.gfx.RenderContext;
 import org.koalanis.enki.gfx.Renderable;
 import org.koalanis.enki.gfx.Shader;
+import org.koalanis.enki.gfx.Sprite;
 import org.koalanis.enki.hex.Hex;
 import org.koalanis.enki.hex.HexGrid;
 import org.koalanis.enki.hex.HexTile;
 
 import java.util.ArrayList;
-
-/**
- * Created by kaleb on 11/10/16.
- */
 
 public class SimpleRenderer implements GLSurfaceView.Renderer {
 
@@ -40,6 +37,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
 
     private boolean randomColorVertex = false;
     private boolean textured = false;
+    private int mTextureDataHandle1;
 
     public HexGrid getGrid() {
         return grid;
@@ -47,7 +45,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
 
     public SimpleRenderer(Context context) {
 
-        grid = new HexGrid(50,50,1.0f);
+        grid = new HexGrid(5,5,1.0f);
         parentContext = context;
         renderContext = new RenderContext();
         data = new float[18*Graphics.VERTEX_DATA_SIZE];
@@ -121,25 +119,23 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES20.glClearColor(0.5f,0.5f,0.5f,0.5f);
 
-        Camera cam = new Camera();
-
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
         final float eyeZ = 1.5f;
-        cam.setEye(eyeX, eyeY, eyeZ);
 
         final float lookX = 0.0f;
         final float lookY = 0.0f;
         final float lookZ = -5.0f;
-        cam.setLook(lookX, lookY, lookZ);
 
 
         final float upX = 0.0f;
         final float upY = 1.0f;
         final float upZ = 0.0f;
-        cam.setUp(upX, upY, upZ);
 
-        renderContext.setCamera(cam);
+        renderContext.setCamera(new Camera());
+        renderContext.getCamera().setEye(eyeX, eyeY, eyeZ);
+        renderContext.getCamera().setLook(lookX, lookY, lookZ);
+        renderContext.getCamera().setUp(upX, upY, upZ);
         renderContext.getCamera().createViewMatrix();
         renderable = new Renderable(data);
 
@@ -156,6 +152,7 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
 
         // texture id
         mTextureDataHandle = Graphics.loadTexture(parentContext, R.drawable.smiley_face);
+        mTextureDataHandle1 = Graphics.loadTexture(parentContext, R.drawable.character_ak47_1);
     }
 
     @Override
@@ -173,12 +170,15 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
                 grid.map.values()) {
             float[] pos = grid.hexToPixel(hexTile);
             Model t = new Model();
-            t.setTranslate(pos[0]-5,pos[1]-5,0.0f);
+            t.setTranslate(pos[0],pos[1],0.0f);
             t.setScale(.25f);
             t.createModelMatrix();
             renderable.draw(shader, mTextureDataHandle, renderContext,t, hexTile.getColor());
 
         }
+        GLES20.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        GLES20.glEnable(GL10.GL_BLEND);
+        new Sprite().draw(shader, mTextureDataHandle1, renderContext, null, new float[] {1.0f,1.f,1.f,1.0f});
     }
 
     public void perturbTriangle() {

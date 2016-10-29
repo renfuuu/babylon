@@ -17,9 +17,7 @@ public class Camera {
 
     private float[] mEye = new float[3];
 
-
     private float[] mCenter= new float[3];
-
 
     private float[] mLook = new float[3];
 
@@ -28,8 +26,6 @@ public class Camera {
     private float[] mView = new float[16];
 
     float yaw, pitch, lastx, lasty, fov;
-
-
 
     public Camera() {
         Matrix.setIdentityM(mView, 0);
@@ -50,9 +46,6 @@ public class Camera {
 
     public void setCenter(float x,float y,float z) {
         mCenter[0]=x;mCenter[1]=y;mCenter[2]=z;
-//        mLook[0]= mCenter[0]-mEye[0];
-//        mLook[1]= mCenter[1]+mEye[1];
-//        mLook[2]= mCenter[2]-mEye[2];
     }
 
 
@@ -63,9 +56,6 @@ public class Camera {
 
     public void setLook(float x,float y,float z) {
         mLook[0]=x;mLook[1]=y;mLook[2]=z;
-//        mCenter[0]= mEye[0]+mLook[0];
-//        mCenter[1]= mEye[1]+mLook[1];
-//        mCenter[2]= mEye[2]+mLook[2];
     }
 
     public void setUp(float x,float y,float z) {
@@ -169,11 +159,11 @@ public class Camera {
         float ex = mEye[0] + deltaX*size;
         float ey = mEye[1] + deltaY*size;
 
-        float cx = mCenter[0] + deltaX*size;
-        float cy = mCenter[1] + deltaY*size;
+        float cx = mLook[0] + deltaX*size;
+        float cy = mLook[1] + deltaY*size;
 
         setEye(ex, ey, mEye[2]);
-//        setCenter(cx, cy, mCenter[2]);
+        setLook(cx, cy, mLook[2]);
 
         mView = createViewMatrix();
     }

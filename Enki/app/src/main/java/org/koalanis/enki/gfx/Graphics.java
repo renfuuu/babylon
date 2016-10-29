@@ -54,7 +54,30 @@ public class Graphics {
                 0.f, s, 0.0f,};
 
     }
+    public static final float[] getUnitTexturedColoredSquare() {
+      return new float[] {
+              0.0f, 0.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              0.0f, 1.0f,
+              1.0f, 1.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              1.0f, 0.0f,
+              0.0f, 1.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              0.0f, 0.0f,
 
+              0.0f, 0.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              0.0f, 1.0f,
+              1.0f, 0.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              1.0f,1.0f,
+              1.0f, 1.0f, 0.0f,
+              1.0f,1.0f,1.0f,1.0f,
+              1.0f,0.0f
+
+      }  ;
+    }
 
     public static final String vertexShader = "uniform mat4 u_Model;"
             +"uniform vec4 u_Color;"
@@ -138,5 +161,20 @@ public class Graphics {
 
         return textureHandle[0];
     }
+
+    public static String tensorToString(float[] mat) {
+        String output = "";
+        for(int i = 0; i < mat.length; i++) {
+            if(i%4 == 0) {
+                output += "|";
+            }
+            output += String.format("%.3f", mat[i]) + "|";
+            if(i%4 == 3) {
+                output += "\n";
+            }
+        }
+        return output;
+    }
+
 }
 
