@@ -16,7 +16,7 @@ public class IntroActivity extends AppCompatActivity {
         FragmentTransaction fragTrans = fg.beginTransaction();
 
         MenuFragment menuFragment = new MenuFragment();
-        fragTrans.add(R.id.main_fragment ,menuFragment);
+        fragTrans.add(R.id.main_fragment , menuFragment);
         fragTrans.commit();
     }
 
