@@ -3,22 +3,18 @@ package org.tardibear.enki;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
 import android.net.Uri;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -70,12 +66,17 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
         bgm = new BackgroundMusic();
         bgm.start(this, bgm.MUSIC_GAME, true);
 
+        //Loot
+        TreasureChest chest = new TreasureChest();
+        final int lootTotals[] = new int[chest.getSize()];
+
+
 
         //Button
         RelativeLayout rl = new RelativeLayout(this);
-        FloatingActionButton btn = new FloatingActionButton(this);
+        ImageButton btn = new ImageButton(this);
         btn.setImageResource(R.drawable.ic_inbox_black_24dp);
-        btn.setSize(FloatingActionButton.SIZE_NORMAL);
+        btn.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
 
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -83,13 +84,17 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
         rlp.addRule(RelativeLayout.ALIGN_PARENT_END, 1);
 
         btn.setLayoutParams(rlp);
-        btn.getLayoutParams().height = 2 * btn.getLayoutParams().height;
-        btn.getLayoutParams().width = 2 * btn.getLayoutParams().width;
+        btn.getLayoutParams().height = 150;
+        btn.getLayoutParams().width = 200;
         btn.requestLayout();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Anime tiddy", Toast.LENGTH_LONG).show();
+                Intent inventory = new Intent(getApplicationContext(), InventoryActivity.class);
+                Bundle lootBundle = new Bundle();
+                lootBundle.putIntArray("loot", lootTotals);
+                inventory.putExtras(lootBundle);
+                startActivity(inventory);
             }
         });
 
