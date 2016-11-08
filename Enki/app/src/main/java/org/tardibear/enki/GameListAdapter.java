@@ -63,7 +63,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
     public void onBindViewHolder(GameListViewHolder holder, final int position) {
 
         holder.thumbnail.setImageResource(callback.getImage(position));
-        holder.title.setText(callback.getTitle(position) + ": ");
+        holder.title.setText(callback.getTitle(position));
         holder.count.setText(""+ countArray[position]);
 
 

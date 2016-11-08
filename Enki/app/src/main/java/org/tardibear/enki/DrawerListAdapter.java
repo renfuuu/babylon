@@ -7,7 +7,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -78,7 +77,7 @@ public class DrawerListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.drawer_items, parent, false);
+            convertView = mInflater.inflate(R.layout.drawer_item, parent, false);
         }
         convertView = findViewBindView(position, convertView);
         return convertView;

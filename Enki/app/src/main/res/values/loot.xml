@@ -27,6 +27,7 @@
     <string-array name="loot_options">
         <item>Equip</item>
         <item>Discard</item>
+        <item>Use</item>
     </string-array>
 
     <string-array name="letter_names">

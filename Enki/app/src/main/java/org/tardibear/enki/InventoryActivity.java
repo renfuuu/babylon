@@ -53,7 +53,8 @@ public class InventoryActivity extends AppCompatActivity implements GameListAdap
     @Override
     public String getTitle(int position){
         String[] titles = getResources().getStringArray(R.array.loot_names);
-        return titles[position];
+//        return titles[position];
+        return "";
     }
 
     @Override
@@ -91,6 +92,7 @@ public class InventoryActivity extends AppCompatActivity implements GameListAdap
             temp.add(desc[i]);
             temp.add("\n");
             if(i == 0 || i == 1 || i == 4 || i == 5) temp.add(options[0]);
+            else if(i == 2 || i== 6 || i == 7)temp.add(options[2]);
             temp.add(options[1]);
 
             result.add(temp);

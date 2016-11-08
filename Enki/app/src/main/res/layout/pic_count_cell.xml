@@ -5,8 +5,8 @@
     android:padding="10dp">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/smiley_face"
         android:id="@+id/thumbnail"
         />
@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:layout_alignLeft="@id/thumbnail"
-        android:layout_alignBottom="@id/thumbnail"
+        android:layout_below="@id/thumbnail"
         android:layout_gravity="bottom">
         <!-- NB: width 0 + weight = stretchy -->
         <TextView
@@ -23,16 +22,17 @@
             android:layout_height="wrap_content"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textColor="@color/colorPrimaryDark"
             android:text="Item Name"
             android:layout_gravity="left" />
         <TextView
             android:id="@+id/count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="0"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:textColor="@color/colorPrimaryDark"
             />
     </LinearLayout>
