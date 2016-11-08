@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="loot_names">
+        <item>Pistol</item>
+        <item>Knife</item>
+        <item>First-aid kit</item>
+        <item>Pistol ammo</item>
+        <item>Crowbar</item>
+        <item>AK-47</item>
+        <item>Walkie-talkie</item>
+        <item>Binoculars</item>
+        <item>AK-47 ammo</item>
+    </string-array>
+
+    <string-array name="loot_desc">
+        <item>A small firearm designed to be held in one hand.</item>
+        <item>An instrument composed of a blade fixed into a handle, used for cutting or as a weapon.</item>
+        <item>A collection of supplies and equipment that is used to give medical treatment, and can be put together for the purpose by an individual or organization or purchased complete.</item>
+        <item>A supply or quantity of bullets for a pistol.</item>
+        <item>An iron bar with a flattened end, used as a lever.</item>
+        <item>A type of assault rifle, originally manufactured in the former Soviet Union.</item>
+        <item>A portable two-way radio.</item>
+        <item>An optical instrument with a lens for each eye, used for viewing distant objects.</item>
+        <item>A supply or quantity of bullets for an AK-47</item>
+    </string-array>
+
+    <string-array name="loot_options">
+        <item>Equip</item>
+        <item>Discard</item>
+    </string-array>
+
+    <string-array name="letter_names">
+        <item>Letter-1</item>
+    </string-array>
+
+    <string-array name="letter_content">
+        <item>Letter-1 says</item>
+    </string-array>
+
+
+</resources>

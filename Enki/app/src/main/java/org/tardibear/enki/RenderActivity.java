@@ -68,9 +68,7 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
 
         //Loot
         TreasureChest chest = new TreasureChest();
-        final int lootTotals[] = new int[chest.getSize()];
-
-
+        final int lootTotals[] = new int[chest.getLootSize()];
 
         //Button
         RelativeLayout rl = new RelativeLayout(this);
