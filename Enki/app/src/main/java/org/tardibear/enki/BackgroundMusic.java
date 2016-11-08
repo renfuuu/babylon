@@ -65,14 +65,16 @@ public class BackgroundMusic{
             }
         } else {
             if (music == MUSIC_MENU) {
-//                mp = MediaPlayer.create(context, R.raw.menu_music);
+                mp = MediaPlayer.create(context, R.raw.menu_music);
+                mp.setLooping(true);
             }
             else if (music == MUSIC_GAME) {
-                mp = MediaPlayer.create(context, R.raw.game_music);
-                mp.setLooping(true);
+//                mp = MediaPlayer.create(context, R.raw.game_music);
+//                mp = MediaPlayer.create(context, null);
             }
             else if (music == MUSIC_END_GAME) {
 //                mp = MediaPlayer.create(context, R.raw.end_game_music);
+//                mp = MediaPlayer.create(context, null);
             }
             else {
                 Log.e(TAG, "unsupported music number - " + music);

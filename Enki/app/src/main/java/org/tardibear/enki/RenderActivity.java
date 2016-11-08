@@ -111,17 +111,17 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
     protected void onResume() {
         super.onResume();
         mSurfaceView.onResume();
-        continueMusic = false;
-        BackgroundMusic.start(this, bgm.MUSIC_GAME);
+//        continueMusic = false;
+//        BackgroundMusic.start(this, bgm.MUSIC_GAME);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mSurfaceView.onPause();
-        if (!continueMusic) {
-            bgm.pause();
-        }
+//        if (!continueMusic) {
+//            bgm.pause();
+//        }
     }
 
     private float prevX;

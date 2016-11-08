@@ -1,6 +1,7 @@
 package org.tardibear.enki;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
@@ -56,7 +57,7 @@ public class DrawerListAdapter extends BaseAdapter {
     private View findViewBindView(int position, final View theView) {
         // We retrieve the text from the array
         String text = getItem(position);
-        TextView theTextView = (TextView) theView.findViewById(R.id.drawer_text);
+        final TextView theTextView = (TextView) theView.findViewById(R.id.drawer_text);
         if(position == 0){
             theTextView.setTypeface(null, Typeface.ITALIC);
         }
@@ -64,12 +65,14 @@ public class DrawerListAdapter extends BaseAdapter {
             theTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         }
         theTextView.setText(text);
-        theTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.closeDrawers();
-            }
-        });
+        if(position > 2){
+            theTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawerLayout.closeDrawers();
+                }
+            });
+        }
 
         return theView;
     }
