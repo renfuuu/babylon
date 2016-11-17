@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="org.tardibear.enki.InventoryActivity"
     android:orientation="vertical"
+    android:background="#FFFFFF"
     >
 
     <android.support.v7.widget.RecyclerView

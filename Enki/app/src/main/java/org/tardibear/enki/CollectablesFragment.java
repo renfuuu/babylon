@@ -1,17 +1,26 @@
 package org.tardibear.enki;
 
+import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
+import junit.framework.Assert;
 
-public class InventoryActivity extends AppCompatActivity implements GameListAdapter.Callback{
+/**
+ * Created by itoro on 11/17/16.
+ */
+
+public class CollectablesFragment extends Fragment implements GameListAdapter.Callback{
 
     private GameListAdapter gAdapter;
     private RecyclerView recyclerView;
@@ -19,40 +28,52 @@ public class InventoryActivity extends AppCompatActivity implements GameListAdap
     private ListView listView;
     private DrawerListAdapter dAdapter;
 
-
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the root view and cache references to vital UI elements
+        View v = inflater.inflate(R.layout.activity_inventory, container, false);
 
-        recyclerView = (RecyclerView) findViewById(R.id.inventory_view);
-        Bundle bundle = getIntent().getExtras();
-        int[] data = bundle.getIntArray("loot");
+        recyclerView = (RecyclerView) v.findViewById(R.id.inventory_view);
+//        Bundle bundle = getIntent().getExtras();
+//        int[] data = bundle.getIntArray("loot");
+        Assert.assertNotNull(recyclerView);
+        int[] data = new int[9];
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 4);
+        Assert.assertNotNull(mLayoutManager);
+
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.activity_inventory);
-        listView = (ListView) findViewById(R.id.drawer_list_view);
+        drawerLayout = (DrawerLayout) v.findViewById(R.id.activity_inventory);
+        listView = (ListView) v.findViewById(R.id.drawer_list_view);
 
         int width = getResources().getDisplayMetrics().widthPixels/3*2;
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) listView.getLayoutParams();
         params.width = width;
         listView.setLayoutParams(params);
 
-        String[] lootNames = getResources().getStringArray(R.array.loot_names);
-        String[] lootDesc = getResources().getStringArray(R.array.loot_desc);
-        String[] lootOptions = getResources().getStringArray(R.array.loot_options);
+        String[] cNames = getResources().getStringArray(R.array.loot_names);
+        String[] cDesc = getResources().getStringArray(R.array.loot_desc);
+        String[] cOptions = getResources().getStringArray(R.array.loot_options);
 
-        dAdapter = new DrawerListAdapter(this);
+        dAdapter = new DrawerListAdapter(getContext());
         dAdapter.setDrawerLayout(drawerLayout);
-        dAdapter.setFullList(setup(lootNames, lootDesc, lootOptions));
+        dAdapter.setFullList(InventoryActivity.setup(cNames, cDesc, cOptions));
 
         gAdapter = new GameListAdapter(data, dAdapter, this);
         gAdapter.setDrawerLayout(drawerLayout);
         gAdapter.setListView(listView);
         recyclerView.setAdapter(gAdapter);
+
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
@@ -87,21 +108,5 @@ public class InventoryActivity extends AppCompatActivity implements GameListAdap
             default:
                 return 0;
         }
-    }
-
-    public static List<ArrayList<String>> setup(String[] names, String[] desc, String[] options) {
-        List<ArrayList<String>> result = new ArrayList<>();
-        for(int i = 0; i < names.length; i++){
-            ArrayList<String> temp = new ArrayList<>();
-            temp.add(names[i]);
-            temp.add(desc[i]);
-            temp.add("\n");
-            if(i == 0 || i == 1 || i == 4 || i == 5) temp.add(options[0]);
-            else if(i == 2 || i== 6 || i == 7)temp.add(options[2]);
-            temp.add(options[1]);
-
-            result.add(temp);
-        }
-        return result;
     }
 }
