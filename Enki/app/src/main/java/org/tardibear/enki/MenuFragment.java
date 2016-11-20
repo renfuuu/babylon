@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,22 @@ public class MenuFragment extends Fragment {
                 startActivity(mainGame);
             }
         });
+
+        Button collectablesButton = (Button) v.findViewById(R.id.button_collectables);
+        collectablesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fg = getFragmentManager();
+                FragmentTransaction fragTrans = fg.beginTransaction();
+
+                CollectablesFragment collectablesFragment = new CollectablesFragment();
+                fragTrans.add(R.id.main_fragment, collectablesFragment);
+                fragTrans.addToBackStack(null);
+                fragTrans.commit();
+            }
+        });
+
+
 
         return v;
     }
