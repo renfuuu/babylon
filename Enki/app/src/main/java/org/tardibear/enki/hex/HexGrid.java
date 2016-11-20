@@ -18,9 +18,14 @@ public class HexGrid {
     // width with respect to vertical orientated hexes
     private float width;
 
+    private int r;
+    private int c;
+
 
     public HexGrid(int r, int c, float size) {
         this.size = size;
+        this.r = r;
+        this.c = c;
         this.map = new HashMap<>();
         for (int i = 0; i < r; i++) {
             for (int j = 0; j < c; j++) {
@@ -37,6 +42,14 @@ public class HexGrid {
         width = (float) (height*Math.sqrt(3.0)/2.0f);
 
 
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public int getC() {
+        return c;
     }
 
     public float getSize() {

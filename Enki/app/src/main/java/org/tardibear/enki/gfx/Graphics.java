@@ -54,6 +54,30 @@ public class Graphics {
                 0.f, s, 0.0f,};
 
     }
+
+    public static float[] getUnitHexagonVertices() {
+        float s = 1.0f;
+        float ns = -1.0f*s;
+        float cos_30 = (float)(Math.cos(Math.toRadians(30)));
+        float sin_30 = (float)(Math.sin(Math.toRadians(30)));
+        return new float[]{
+                // fan of hexagon counter clockwise
+
+                0.0f, 0.0f, 0.0f,
+                0.0f, s, 0.0f,
+                ns*cos_30, s*sin_30, 0.0f,
+                ns*cos_30, ns*sin_30, 0.0f,
+                0.0f, ns, 0.0f,
+                s*cos_30, ns*sin_30, 0.0f,
+                s*cos_30, s*sin_30, 0.0f};
+    }
+
+    public static  short[] getUnitHexagonIndicies() {
+        return new short[] {
+                0,1,2, 0,2,3, 0,3,4, 0,4,5, 0,5,6, 0,6,1
+        };
+    }
+
     public static final float[] getUnitTexturedColoredSquare() {
       return new float[] {
               0.0f, 0.0f, 0.0f,

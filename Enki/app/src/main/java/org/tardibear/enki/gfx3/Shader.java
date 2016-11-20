@@ -1,7 +1,9 @@
-package org.tardibear.enki.gfx;
+package org.tardibear.enki.gfx3;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -31,9 +33,29 @@ public class Shader {
     }
 
     public Shader attach(int type, String src) {
-        Integer v = Graphics.loadShader(type, src);
+        Integer v = null;
+        try {
+            v = Graphics.loadShader(type, src);
+        } catch (Exception e) {
+            Log.e("shader.attach",  "Could not attach shader");
+            e.printStackTrace();
+        }
         Integer k = type;
-        GLES20.glAttachShader(programHandle, v);
+        GLES30.glAttachShader(programHandle, v);
+        shaderMap.put(k,v);
+        return this;
+    }
+
+    public Shader attach(int type, Context context, int resID) {
+        Integer v = null;
+        try {
+            v = Graphics.loadShaderFromRaw(context, type, resID);
+        } catch (Exception e) {
+            Log.e("shader.attach",  "Could not attach shader");
+            e.printStackTrace();
+        }
+        Integer k = type;
+        GLES30.glAttachShader(programHandle, v);
         shaderMap.put(k,v);
         return this;
     }
@@ -42,24 +64,24 @@ public class Shader {
 
         if(attributes != null) {
             for (int i = 0; i<attributes.length; ++i) {
-                GLES20.glBindAttribLocation(programHandle, i, attributes[i]);
+                GLES30.glBindAttribLocation(programHandle, i, attributes[i]);
             }
         }
 
-        GLES20.glLinkProgram(programHandle);
+        GLES30.glLinkProgram(programHandle);
         if(attributes != null && uniforms != null) {
 
             for (int i = 0; i<attributes.length; ++i) {
-                attributeMap.put(attributes[i],GLES20.glGetAttribLocation(programHandle, attributes[i]));
+                attributeMap.put(attributes[i],GLES30.glGetAttribLocation(programHandle, attributes[i]));
             }
 
             for (int i = 0; i<uniforms.length; ++i) {
-                uniformMap.put(uniforms[i], GLES20.glGetUniformLocation(programHandle, uniforms[i]));
+                uniformMap.put(uniforms[i], GLES30.glGetUniformLocation(programHandle, uniforms[i]));
             }
         }
     }
 
-    public void use() { GLES20.glUseProgram(programHandle);}
+    public void use() { GLES30.glUseProgram(programHandle);}
 
     public int getAttribLocation(String str) {
         return attributeMap.get(str);
@@ -71,19 +93,19 @@ public class Shader {
 
     public int getPositionHandle() {
         if(positionLoc == -1)
-            positionLoc = getAttribLocation("a_Position");
+            positionLoc = getAttribLocation("a_position");
         return positionLoc;
     }
 
     public int getUVHandle() {
         if(uvLoc == -1)
-            uvLoc = getAttribLocation("a_UV");
+            uvLoc = getAttribLocation("a_uv");
         return uvLoc;
     }
 
     public int getColorHandle() {
         if(colorLoc == -1)
-            colorLoc = getAttribLocation("a_Color");
+            colorLoc = getAttribLocation("a_color");
         return colorLoc;
     }
 
@@ -98,7 +120,6 @@ public class Shader {
         }
         return i;
     }
-
 
     public int getProgramHandle() {
         return programHandle;

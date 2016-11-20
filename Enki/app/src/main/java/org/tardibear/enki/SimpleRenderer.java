@@ -149,7 +149,6 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         String[] attrs = {"a_Position", "a_Color", "a_UV"};
         String[] unis = {"u_View", "u_Persp", "u_Model", "u_Texture", "u_Color"};
 
-
         shader.compile(attrs,unis);
 
         // texture id

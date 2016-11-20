@@ -10,8 +10,8 @@ import java.nio.FloatBuffer;
 /**
  * Created by kaleb on 11/10/16.
  *
- * Renderable is a render target which can call draw during the render callback of a opengl program
- * There are some enforcements on the data of which Renderable can consume. The vertex data depends
+ * RenderTarget is a render target which can call draw during the render callback of a opengl program
+ * There are some enforcements on the data of which RenderTarget can consume. The vertex data depends
  * on the functionality of the shader, so we mandate vertex data to contain position, color and uv
  * coordinates for every renderable
  */

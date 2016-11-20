@@ -25,13 +25,18 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.tardibear.enki.mkii.BatchRenderer;
+
 /**
  * Created by kaleb on 11/10/16.
  */
 public class RenderActivity extends Activity implements GLSurfaceView.OnTouchListener {
 
     private GLSurfaceView mSurfaceView;
-    private SimpleRenderer mRenderer;
+//    private SimpleRenderer mRenderer;
+
+    private BatchRenderer mRenderer;
+
     private boolean continueMusic;
     private BackgroundMusic bgm;
     /**
@@ -49,8 +54,8 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
         if (info.reqGlEsVersion >= 0x20000) {
             mSurfaceView.setEGLContextClientVersion(2);
 
-            mRenderer = new SimpleRenderer(getApplicationContext());
-
+//            mRenderer = new SimpleRenderer(getApplicationContext());
+            mRenderer = new BatchRenderer(getApplicationContext());
             mSurfaceView.setRenderer(mRenderer);
         } else {
             Log.e("RenderActivity", "Device does not support OpenGLES2.0");
@@ -58,12 +63,12 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
         mSurfaceView.setOnTouchListener(this);
         setContentView(mSurfaceView);
 
-        mSurfaceView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mRenderer.perturbTriangle();
-            }
-        });
+//        mSurfaceView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mRenderer.perturbTriangle();
+//            }
+//        });
 
         //background music
         continueMusic = true;
@@ -136,8 +141,8 @@ public class RenderActivity extends Activity implements GLSurfaceView.OnTouchLis
                 float x = event.getX();
                 float y = event.getY();
 
-                if (x != prevX || y != prevY)
-                    mRenderer.getRenderContext().getCamera().handleSwipe(mRenderer.getRenderContext(), x, y, prevY, prevX, .05f);
+//                if (x != prevX || y != prevY)
+//                    mRenderer.getRenderContext().getCamera().handleSwipe(mRenderer.getRenderContext(), x, y, prevY, prevX, .05f);
                 break;
             default:
                 break;
