@@ -54,6 +54,7 @@ public class CollectablesFragment extends Fragment implements GameListAdapter.Ca
         params.width = width;
         listView.setLayoutParams(params);
 
+        //TODO: change the arrays
         String[] cNames = getResources().getStringArray(R.array.loot_names);
         String[] cDesc = getResources().getStringArray(R.array.loot_desc);
         String[] cOptions = getResources().getStringArray(R.array.loot_options);
