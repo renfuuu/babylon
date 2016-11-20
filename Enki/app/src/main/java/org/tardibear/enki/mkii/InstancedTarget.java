@@ -16,7 +16,7 @@ import java.nio.ShortBuffer;
  * Created by kaleb on 11/8/2016.
  */
 
-class InstancedTarget implements Renderable {
+class InstancedTarget extends Renderable implements GLCallback{
 
 
     private final int mLenInstanceData;
@@ -167,6 +167,21 @@ class InstancedTarget implements Renderable {
 
     public Shader Shader() {
         return mShader;
+    }
+
+    @Override
+    public void preDrawFrame(RenderContext rc) {
+
+    }
+
+    @Override
+    public void postDrawFrame(RenderContext rc) {
+
+    }
+
+    @Override
+    public void onDrawFrame(RenderContext rc) {
+
     }
 
     public void attachShader(Shader mShader) {

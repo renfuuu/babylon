@@ -137,12 +137,12 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 //                translations[2*(i*grid.getC()+j)+1] = pos[1];
 //            }
 //        }
-
-        it = new InstancedTarget(Graphics.getUnit2DHexagonVertices(), Graphics.getUnitHexagonIndicies(), fff);
-        it.setTexture(mTextureDataHandle);
-        it.attachShader(mInstancedShader);
-        it.init();
-        renderables.add(it);
+//
+//        it = new InstancedTarget(Graphics.getUnit2DHexagonVertices(), Graphics.getUnitHexagonIndicies(), fff);
+//        it.setTexture(mTextureDataHandle);
+//        it.attachShader(mInstancedShader);
+//        it.init();
+//        renderables.add(it);
 //        it.setColor(new float[] {0.0f, 0.0f, 1.0f, 1.0f});
 //        it.getModel().scale(.5f);
 //        it.getModel().createModelMatrix();
@@ -171,10 +171,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderables) {
             r.draw(renderContext);
         }
-//        it.draw(renderContext);
 
-
-        postDrawFrame();
     }
 
     public void onPause(){}

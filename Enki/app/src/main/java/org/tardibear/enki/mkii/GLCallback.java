@@ -9,6 +9,8 @@ import org.tardibear.enki.gfx3.Shader;
 
 public interface GLCallback {
 
+    void init();
+
     void preDrawFrame(RenderContext rc);
 
     void postDrawFrame(RenderContext rc);

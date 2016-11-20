@@ -1,5 +1,6 @@
 
 package org.tardibear.enki.mkii;
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 
 import org.tardibear.enki.gfx3.Model;
@@ -11,7 +12,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-
+import javax.microedition.khronos.opengles.GL10;
 
 
 public class RenderTarget extends Renderable{
@@ -106,7 +107,19 @@ public class RenderTarget extends Renderable{
         GLES30.glBindVertexArray ( 0 );
     }
 
-    public void onDraw(RenderContext renderContext) {
+
+    @Override
+    public void preDrawFrame(RenderContext rc) {
+        GLES30.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        GLES30.glEnable(GL10.GL_BLEND);
+    }
+
+    @Override
+    public void postDrawFrame(RenderContext rc) {
+
+    }
+
+    public void onDrawFrame(RenderContext renderContext) {
 
         mShader.use();
 
