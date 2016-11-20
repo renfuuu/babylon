@@ -1,4 +1,4 @@
-package org.tardibear.enki.gfx3;
+package cs371m.tardibear.suito.gfx;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -52,12 +52,14 @@ public class RenderContext {
         final float right = ratio;
         final float bottom = -1.0f;
         final float top = 1.0f;
-        final float near = -1.f;
+        final float near = 0.1f;
         final float far = 10.0f;
 
 
 
-        Matrix.orthoM(perspective, 0, left, right, bottom, top, near, far);
+//        Matrix.orthoM(perspective, 0, left, right, bottom, top, near, far);
+        Matrix.frustumM(perspective, 0, left, right, bottom, top, near, far);
+
 
     }
 

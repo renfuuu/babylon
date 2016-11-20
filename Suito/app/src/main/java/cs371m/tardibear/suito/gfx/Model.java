@@ -1,4 +1,4 @@
-package org.tardibear.enki.gfx3;
+package cs371m.tardibear.suito.gfx;
 
 import android.opengl.Matrix;
 

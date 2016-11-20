@@ -1,8 +1,8 @@
-package org.tardibear.enki.gfx3;
+package cs371m.tardibear.suito.gfx;
 
-import org.tardibear.enki.mkii.GLCallback;
-import org.tardibear.enki.mkii.RenderTarget;
-import org.tardibear.enki.mkii.Renderable;
+import cs371m.tardibear.suito.gles.GLCallback;
+import cs371m.tardibear.suito.gles.RenderTarget;
+import cs371m.tardibear.suito.gles.Renderable;
 
 /**
  * Created by kaleb on 28/10/16.

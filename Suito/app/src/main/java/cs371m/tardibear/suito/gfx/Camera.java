@@ -1,8 +1,6 @@
-package org.tardibear.enki.gfx3;
-
+package cs371m.tardibear.suito.gfx;
 import android.opengl.Matrix;
 
-import org.tardibear.enki.SimpleRenderer;
 
 /**
  * Created by kaleb on 11/10/16.
@@ -66,57 +64,6 @@ public class Camera {
         pos[0] += p[0];
         pos[1] += p[1];
 //        pos[2] += p[2];
-    }
-
-    public float[] alignWithClick(SimpleRenderer mRenderer, float  width, float height) {
-        float touch_x= width;
-        float touch_y = height;
-        float[] ppT = new float[4];
-        float ndc_x = (2.0f*touch_x)/mRenderer.getRenderContext().getWidth() - 1.0f;
-        float ndc_y = 1.0f - (2.0f*touch_y)/mRenderer.getRenderContext().getHeight();
-
-        float[] pT =  {ndc_x,ndc_y,-1.0f, 1.0f};
-        mRenderer.getRenderContext().update();
-        float[] persp = mRenderer.getRenderContext().getPerspective();
-        float[] iM = new float[16];
-        Matrix.invertM(iM, 0 ,persp,0);
-        Matrix.multiplyMV(ppT, 0, iM, 0, pT, 0);
-        float[] temp = new float[16];
-        ppT[2] = -1.0f;
-        ppT[3] = 0.0f;
-        float[] world_ray = new float[3];
-        Matrix.invertM(temp, 0, getViewMatrix(), 0);
-        Matrix.multiplyMV(pT, 0, temp, 0, ppT, 0);
-        world_ray[0] = pT[0];
-        world_ray[1] = pT[1];
-        world_ray[2] = pT[2];
-        float scalar = Matrix.length(world_ray[0], world_ray[1], world_ray[2]);
-        world_ray[0] = world_ray[0]/scalar;
-        world_ray[1] = world_ray[1]/scalar;
-        world_ray[2] = world_ray[2]/scalar;
-        float[] pp = {0.0f,0.0f,0.0f};
-        float[] l0 = mEye;
-        float[] l = world_ray;
-        float[] n = {0,0,1.0f};
-
-        float d = computeIntersect(pp,l0, n, l);
-        float d1 = computeIntersect(pp, mEye, n, mLook);
-
-
-        if(d != -1.0f) {
-            float[] p0 = {mEye[0]+d*world_ray[0],mEye[1]+d*world_ray[1],mEye[2]+d*world_ray[2]};
-            float[] p1 = {mEye[0]+d1*mLook[0],mEye[1]+d1*mLook[1],mEye[2]+d1*mLook[2]};
-            float[] delta = {p0[0] - p1[0], p0[1] - p1[1], p0[2] - p1[2]};
-
-//        float[] displacement = {world_ray[0] - mLook[0], world_ray[1] - mLook[1], world_ray[2] - mLook[2]};
-            // let ray = new eye
-
-            setEye(mEye[0]+delta[0], mEye[1]+delta[1], mEye[2]);
-            createViewMatrix();
-        }
-
-        return mEye;
-
     }
 
     private float computeIntersect(float[] p0, float[] l0, float[] n, float[] l) {

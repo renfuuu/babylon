@@ -1,4 +1,4 @@
-package org.tardibear.enki.gfx3;
+package cs371m.tardibear.suito.gfx;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -324,6 +324,8 @@ public class        Graphics {
         return textureHandle[0];
     }
 
+
+
     public static String tensorToString(float[] mat) {
         String output = "";
         for (int i = 0; i < mat.length; i++) {
@@ -426,6 +428,7 @@ public class        Graphics {
                     "{                          \n" +
                     "    o_fragColor = v_color * texture(u_texture, v_uv); \n" +
                     "}";
+
 
 
 
