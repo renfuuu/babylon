@@ -17,11 +17,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = new Intent(this, CollectionActivity.class);
 //        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-
-
-        Intent intent = new Intent(this, VAO.class);
+//        Intent intent = new Intent(this, VAO.class);
         startActivity(intent);
 
         finish();
