@@ -20,6 +20,9 @@ public class Obj {
     public float[] vertices;
     private ArrayList<Float> verticesList;
 
+    private String TAG = "Obj";
+
+
     public Obj(String objFile){
         load(objFile);
     }
@@ -37,33 +40,56 @@ public class Obj {
             Scanner lineScanner = new Scanner(line);
             String flag = lineScanner.next();
             if(flag.equals("v")){
-                while(lineScanner.hasNext()){
-                    String vertex = lineScanner.next();
-                    verticesList.add(Float.parseFloat(vertex));
+
+
+
+
+
+
+                while(lineScanner.hasNextFloat()){
+                    float vertex = lineScanner.nextFloat();
+                    verticesList.add(vertex);
                 }
-                vertices = new float[verticesList.size()];
-                for(int i = 0; i < vertices.length; i++){
-                    vertices[i] = verticesList.get(i).floatValue();
-                }
+
+
+
+
+
+
+
             }
             else if(flag.equals("f")){
-                while(lineScanner.hasNext()){
-                    String vertex = lineScanner.next();
-                    indicesList.add(Short.parseShort(vertex));
+
+
+
+                while(lineScanner.hasNextShort()){
+                    short index = lineScanner.nextShort();
+                    indicesList.add(index);
                 }
-                indices = new short[indicesList.size()];
-                for(int i = 0; i < indices.length; i++){
-                    indices[i] = indicesList.get(i).shortValue();
-                    indices[i] -= 1;
-                }
+
+
             }else if(flag.equals("vt")) {
                 // vertex uv
             }else if(flag.equals("vn")) {
                 //vertex normal/color
             }else throw new IllegalStateException();
         }
+
+
+        Log.d(TAG, "num of vertices : " + verticesList.size());
+        Log.d(TAG, "num of indices : " + indicesList.size());
+
         //TODO: check for uv, color later
+
+
+
+
         vertices = padPureVertexData();
+        indices = new short[indicesList.size()];
+        for (int i = 0; i < indicesList.size(); i++) {
+            indices[i] = indicesList.get(i);
+            indices[i] -= 1;
+        }
     }
 
     private void load(Context context, int rawId){
@@ -72,7 +98,8 @@ public class Obj {
         String line;
         try {
             while ((line = reader.readLine()) != null) {
-                sb.append(line+"\n");
+                sb.append(line);
+                sb.append("\n");
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -95,20 +122,20 @@ public class Obj {
     }
 
     public float[] padPureVertexData(){
-        float[] padding = new float[vertices.length*3];
+        float[] padding = new float[verticesList.size()*3];
         int padindex = 0;
-        for(int i = 0; i < vertices.length; i++){
+        for(int i = 0; i < verticesList.size(); i++){
 
-            padding[padindex] = vertices[i];
-            if(i % 3 == 0 && i > 3){
+            if(i % 3 == 0 && i >= 3){
                 for(int c = 0; c < 4; c++){
                     padding[padindex+c] = 1.0f;
                 }
                 for(int uv = 0; uv < 2; uv++){
                     padding[padindex+uv+4] = 0.0f;
                 }
-                padindex += 5;
+                padindex += 6;
             }
+            padding[padindex] = verticesList.get(i);
             padindex += 1;
         }
         return padding;

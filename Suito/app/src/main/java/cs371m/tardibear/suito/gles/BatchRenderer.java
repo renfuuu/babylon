@@ -35,11 +35,21 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     private int mTextureDataHandle;
     private Shader mShader;
 
+    private Obj bunny;
+
 
     public BatchRenderer(Context context) {
         parentContext = context;
         renderable = null;
         renderContext = new RenderContext();
+
+        bunny = new Obj(context, R.raw.bunny);
+        String TAG = "objLoader";
+        for (int i = 0; i < 10; i++) {
+            Log.d(TAG,Float.toString(bunny.vertices[i]));
+            Log.d(TAG,Short.toString(bunny.indices[i]));
+
+        }
     }
 
     @Override
@@ -85,13 +95,13 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
 
         //TODO: use Obj
-//        renderable = new RenderTarget(new Obj(parentContext, R.raw.bunny));
-        renderable = new RenderTarget(Graphics.getUnitHexagonVertices(), Graphics.getUnitHexagonIndicies());
+        renderable = new RenderTarget(bunny);
+//        renderable = new RenderTarget(Graphics.getUnitHexagonVertices(), Graphics.getUnitHexagonIndicies());
 
 //        Sprite sprite = new Sprite();
 
         renderable.setColor(new float[]{1.0f, 0.0f, 0.0f, 1.0f});
-        renderable.getModel().setScale(1.0f);
+        renderable.getModel().setScale(10.0f);
         renderable.getModel().createModelMatrix();
 //        sprite.setColor(new float[] {0.0f, 1.0f, 0.0f, 1.0f});
         renderable.setTexture(mTextureDataHandle);
