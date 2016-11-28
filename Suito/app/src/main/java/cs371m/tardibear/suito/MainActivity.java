@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //TODO remove snackbar for implicit intent
-                Snackbar.make(view, "Developer Note: SD card intent here", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                CollectionActivity.showSnackbar(view, "Developer Note: SD card intent here");
             }
         });
 
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_texture) {
 
         } else if (id == R.id.nav_collection) {
-
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
