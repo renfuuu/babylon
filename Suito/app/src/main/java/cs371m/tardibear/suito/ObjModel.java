@@ -9,29 +9,26 @@ import cs371m.tardibear.suito.gfx.Obj;
 public class ObjModel {
 
     private String name;
-    private Obj obj;
+    private boolean isDefault;
 
-    public ObjModel(){
-
-    }
-
-    public ObjModel(String name){
+    public ObjModel(String name, boolean isDefault){
         this.name = name;
+        this.isDefault = isDefault;
     }
 
     public String getName(){
         return this.name;
     }
 
-    public Obj getObj(){
-        return this.obj;
+    public boolean getIsDefault(){
+        return this.isDefault;
     }
 
     public void setName(String name){
         this.name = name;
     }
 
-    public void setObj(Obj obj){
-        this.obj = obj;
+    public void setisDefault(boolean isDefault){
+        this.isDefault = isDefault;
     }
 }

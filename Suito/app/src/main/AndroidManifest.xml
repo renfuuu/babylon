@@ -11,10 +11,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CollectionActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
@@ -25,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".gles.VAO" />
-        <activity android:name=".CollectionActivity"></activity>
     </application>
 
 </manifest>

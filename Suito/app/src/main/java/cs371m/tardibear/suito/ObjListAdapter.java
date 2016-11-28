@@ -60,10 +60,10 @@ public class ObjListAdapter extends ArrayAdapter<ObjModel> {
 
             @Override
             public void onClick(View view) {
-                //TODO: change instead of on the textView but on the entire list
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 Bundle b = new Bundle();
                 b.putString("OBJ_NAME", objList.get(position).getName());
+                b.putBoolean("OBJ_DEFAULT", objList.get(position).getIsDefault());
                 intent.putExtras(b);
                 getContext().startActivity(intent);
             }

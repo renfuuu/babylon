@@ -5,20 +5,16 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import junit.framework.Assert;
+
 import cs371m.tardibear.suito.R;
 import cs371m.tardibear.suito.gfx.Graphics;
 import cs371m.tardibear.suito.gfx.Camera;
-import cs371m.tardibear.suito.gfx.Model;
 import cs371m.tardibear.suito.gfx.Obj;
 import cs371m.tardibear.suito.gfx.RenderContext;
 import cs371m.tardibear.suito.gfx.Shader;
-import cs371m.tardibear.suito.gfx.Sprite;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,19 +31,48 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     private int mTextureDataHandle;
     private Shader mShader;
 
-    private Obj bunny;
-
+    private Obj mesh;
 
     public BatchRenderer(Context context) {
         parentContext = context;
         renderable = null;
         renderContext = new RenderContext();
+    }
 
-        bunny = new Obj(context, R.raw.bunny);
+//    public BatchRenderer(Context context, String objFile, boolean defaultMesh){
+//        this(context);
+//        setObj(objFile, defaultMesh);
+//    }
+
+    public void setObj(String objFile, boolean defaultMesh){
+        //objFile can be the content of the file or the name of the default objs
+        if(defaultMesh){
+            switch(objFile){
+                case "Bunny":
+                    mesh = new Obj(parentContext, R.raw.bunny);
+                    break;
+                case "Dragon":
+                    mesh = new Obj(parentContext, R.raw.dragon);
+                    break;
+                case "Triangle":
+                    mesh = new Obj(parentContext, R.raw.triangle);
+                    break;
+                case "Sphere":
+                    mesh = new Obj(parentContext, R.raw.sphere);
+                default:
+                    break;
+            }
+        }
+        else{
+            mesh = new Obj(objFile);
+        }
+
+        Assert.assertNotNull(mesh);
+
         String TAG = "objLoader";
-        for (int i = 0; i < 10; i++) {
-            Log.d(TAG,Float.toString(bunny.vertices[i]));
-            Log.d(TAG,Short.toString(bunny.indices[i]));
+        for (int i = 0; i < 3; i++) {
+            Log.d(TAG,Float.toString(mesh.vertices[i]));
+            Log.d(TAG,Short.toString(mesh.indices[i]));
 
         }
     }
@@ -95,7 +120,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
 
         //TODO: use Obj
-        renderable = new RenderTarget(bunny);
+        renderable = new RenderTarget(mesh);
 //        renderable = new RenderTarget(Graphics.getUnitHexagonVertices(), Graphics.getUnitHexagonIndicies());
 
 //        Sprite sprite = new Sprite();

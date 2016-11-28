@@ -41,31 +41,40 @@ public class Obj {
             String flag = lineScanner.next();
             if(flag.equals("v")){
 
-
-
-
-
-
-                while(lineScanner.hasNextFloat()){
-                    float vertex = lineScanner.nextFloat();
-                    verticesList.add(vertex);
+                //TODO: sphere doesn't show up
+                while(lineScanner.hasNext()){
+                    String vertex = lineScanner.next();
+                    verticesList.add(Float.parseFloat(vertex));
+                }
+                vertices = new float[verticesList.size()];
+                for(int i = 0; i < vertices.length; i++){
+                    vertices[i] = verticesList.get(i).floatValue();
                 }
 
 
-
-
-
+//              TODO: null exception when sphere
+//                while(lineScanner.hasNextFloat()){
+//                    float vertex = lineScanner.nextFloat();
+//                    verticesList.add(vertex);
+//                }
 
 
             }
             else if(flag.equals("f")){
-
-
-
-                while(lineScanner.hasNextShort()){
-                    short index = lineScanner.nextShort();
-                    indicesList.add(index);
+                while(lineScanner.hasNext()){
+                    String vertex = lineScanner.next();
+                    indicesList.add(Short.parseShort(vertex));
                 }
+                indices = new short[indicesList.size()];
+                for(int i = 0; i < indices.length; i++){
+                    indices[i] = indicesList.get(i).shortValue();
+                    indices[i] = 1;
+                }
+
+//                while(lineScanner.hasNextShort()){
+//                    short index = lineScanner.nextShort();
+//                    indicesList.add(index);
+//                }
 
 
             }else if(flag.equals("vt")) {

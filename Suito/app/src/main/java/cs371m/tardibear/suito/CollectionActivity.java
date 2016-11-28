@@ -1,5 +1,6 @@
 package cs371m.tardibear.suito;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,20 +19,17 @@ public class CollectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_collection);
 
         List<ObjModel> models = new ArrayList<>();
-        models.add(new ObjModel("Bunny"));
-        models.add(new ObjModel("Dragon"));
-        models.add(new ObjModel("Triangle"));
-        models.add(new ObjModel("Sphere"));
-
-        for( ObjModel m : models){
-
-            Log.d("Model Names",  m.getName());
-        }
-
+        models.add(new ObjModel("Bunny", true));
+        models.add(new ObjModel("Dragon", true));
+        models.add(new ObjModel("Triangle", true));
+        models.add(new ObjModel("Sphere", true));
 
         ObjListAdapter adapter = new ObjListAdapter(this, models);
 
         ListView lv = (ListView) findViewById(R.id.list_view);
         lv.setAdapter(adapter);
+
+        Snackbar.make(lv, "Select a 3D model", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }

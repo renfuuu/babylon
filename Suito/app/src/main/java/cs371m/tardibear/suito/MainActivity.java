@@ -1,8 +1,14 @@
 package cs371m.tardibear.suito;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ConfigurationInfo;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +19,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import cs371m.tardibear.suito.gles.BatchRenderer;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final int CONTEXT_CLIENT_VERSION = 3;
+    private GLSurfaceView mGLSurfaceView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO remove snackbar for implicit intent
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -40,7 +53,55 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        BatchRenderer batchRenderer = new BatchRenderer(this);
+        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
+        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
+        batchRenderer.setObj(getIntent().getExtras().getString("OBJ_NAME"), getIntent().getExtras().getBoolean("OBJ_DEFAULT"));
+
+        mGLSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
+
+        if ( detectOpenGLES30() )
+        {
+            assert (false);
+            // Tell the surface view we want to create an OpenGL ES 3.0-compatible
+            // context, and set an OpenGL ES 3.0-compatible renderer.
+            mGLSurfaceView.setEGLContextClientVersion ( CONTEXT_CLIENT_VERSION );
+            mGLSurfaceView.setRenderer ( batchRenderer );
+        }
+        else
+        {
+            Log.e ( "SimpleTexture2D", "OpenGL ES 3.0 not supported on device.  Exiting..." );
+            finish();
+        }
     }
+
+    private boolean detectOpenGLES30()
+    {
+        ActivityManager am =
+                ( ActivityManager ) getSystemService ( Context.ACTIVITY_SERVICE );
+        ConfigurationInfo info = am.getDeviceConfigurationInfo();
+        return ( info.reqGlEsVersion >= 0x30000 );
+    }
+
+    @Override
+    protected void onResume()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onResume();
+        mGLSurfaceView.onResume();
+    }
+
+    @Override
+    protected void onPause()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onPause();
+        mGLSurfaceView.onPause();
+    }
+
 
     @Override
     public void onBackPressed() {
