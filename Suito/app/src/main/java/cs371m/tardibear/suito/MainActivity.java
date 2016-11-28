@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //TODO remove snackbar for implicit intent
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Developer Note: SD card intent here", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -141,17 +141,14 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        //TODO: add functionality to the navigation drawer
+        if (id == R.id.nav_background) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_color) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_texture) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_collection) {
 
         }
 

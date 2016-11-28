@@ -119,7 +119,6 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         mTextureDataHandle = Graphics.loadTexture(parentContext, R.drawable.checkboard_map);
 
 
-        //TODO: use Obj
         renderable = new RenderTarget(mesh);
 //        renderable = new RenderTarget(Graphics.getUnitHexagonVertices(), Graphics.getUnitHexagonIndicies());
 
