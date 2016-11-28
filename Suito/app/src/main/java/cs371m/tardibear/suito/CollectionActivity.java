@@ -25,9 +25,9 @@ public class CollectionActivity extends AppCompatActivity {
 
         models = new ArrayList<>();
         models.add(new ObjModel("Bunny", true));
-        models.add(new ObjModel("Dragon", true));
+//        models.add(new ObjModel("Dragon", true));
         models.add(new ObjModel("Triangle", true));
-        models.add(new ObjModel("Sphere", true));
+//        models.add(new ObjModel("Sphere", true));
 
         ObjListAdapter adapter = new ObjListAdapter(this, models);
 

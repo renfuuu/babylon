@@ -1,5 +1,7 @@
 package cs371m.tardibear.suito.gfx;
 
+import android.opengl.GLES30;
+import android.opengl.GLES32;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 

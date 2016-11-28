@@ -32,6 +32,14 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     private Shader mShader;
 
     private Obj mesh;
+    private int defaultMeshInteger;
+    private final int BUNNY_NUMBER = 1;
+    private final int DRAGON_NUMBER = 2;
+    private final int TRIANGLE_NUMBER = 3;
+    private final int SPHERE_NUMBER = 4;
+    private final int CUSTOM_NUMBER = 5;
+    private int currentMesh;
+    private String objFile;
 
     public BatchRenderer(Context context) {
         parentContext = context;
@@ -49,32 +57,26 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         if(defaultMesh){
             switch(objFile){
                 case "Bunny":
-                    mesh = new Obj(parentContext, R.raw.bunny);
+                    currentMesh = BUNNY_NUMBER;
                     break;
                 case "Dragon":
-                    mesh = new Obj(parentContext, R.raw.dragon);
+                    currentMesh = DRAGON_NUMBER;
                     break;
                 case "Triangle":
-                    mesh = new Obj(parentContext, R.raw.triangle);
+                    currentMesh = TRIANGLE_NUMBER;
                     break;
                 case "Sphere":
-                    mesh = new Obj(parentContext, R.raw.sphere);
+                    currentMesh = SPHERE_NUMBER;
                 default:
                     break;
             }
         }
         else{
-            mesh = new Obj(objFile);
+            currentMesh = CUSTOM_NUMBER;
+            this.objFile = objFile;
         }
 
-        Assert.assertNotNull(mesh);
 
-        String TAG = "objLoader";
-        for (int i = 0; i < 3; i++) {
-            Log.d(TAG,Float.toString(mesh.vertices[i]));
-            Log.d(TAG,Short.toString(mesh.indices[i]));
-
-        }
     }
 
     @Override
@@ -96,9 +98,37 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         GLES30.glClearColor(1.0f,1.f,1.0f,1.0f);
 
+        switch(currentMesh){
+            case BUNNY_NUMBER:
+                mesh = new Obj(parentContext, R.raw.bunny);
+                break;
+            case DRAGON_NUMBER:
+                mesh = new Obj(parentContext, R.raw.dragon);
+                break;
+            case TRIANGLE_NUMBER:
+                mesh = new Obj(parentContext, R.raw.triangle);
+                break;
+            case SPHERE_NUMBER:
+                mesh = new Obj(parentContext, R.raw.sphere);
+                break;
+            case CUSTOM_NUMBER:
+                mesh = new Obj(objFile);
+            default:
+                break;
+        }
+
+        Assert.assertNotNull(mesh);
+
+        String TAG = "objLoader";
+        for (int i = 0; i < 3; i++) {
+            Log.d(TAG,Float.toString(mesh.vertices[i]));
+            Log.d(TAG,Short.toString(mesh.indices[i]));
+
+        }
+
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 1.5f;
+        final float eyeZ = 1.0f;
 
         final float lookX = 0.0f;
         final float lookY = 0.0f;
