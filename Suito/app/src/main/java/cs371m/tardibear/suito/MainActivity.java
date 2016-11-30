@@ -19,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import cs371m.tardibear.suito.gles.BatchRenderer;
+import cs371m.tardibear.suito.boids.BatchRenderer;
+
+//import cs371m.tardibear.suito.gles.BatchRenderer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity
             // context, and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView.setEGLContextClientVersion ( CONTEXT_CLIENT_VERSION );
             mGLSurfaceView.setRenderer ( batchRenderer );
+            Log.d ( "Main", "OpenGL ES 3.2 supported on device.  Exiting..." );
+
         }
         else
         {
@@ -80,7 +84,8 @@ public class MainActivity extends AppCompatActivity
         ActivityManager am =
                 ( ActivityManager ) getSystemService ( Context.ACTIVITY_SERVICE );
         ConfigurationInfo info = am.getDeviceConfigurationInfo();
-        return ( info.reqGlEsVersion >= 0x30000 );
+        Log.d("info", Integer.toHexString(info.reqGlEsVersion));
+        return ( info.reqGlEsVersion >= 0x3200 );
     }
 
     @Override

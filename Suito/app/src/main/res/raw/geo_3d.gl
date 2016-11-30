@@ -1,0 +1,18 @@
+#version 320 es
+layout (triangles) in;
+layout (triangle_strip, max_vertices = 3) out;
+uniform mat4 view_projection;
+in vec3 vs_light_direction[];
+out vec3 normal;
+out vec3 light_direction;
+void main() {
+   vec3 norm = cross( gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz, gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz);
+   normal = normalize(norm);
+   int n = 0;
+   for (n = 0; n < gl_in.length(); n++) {
+      light_direction = vs_light_direction[n];
+      gl_Position = view_projection * gl_in[n].gl_Position;
+      EmitVertex();
+   }
+   EndPrimitive();
+}

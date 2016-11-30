@@ -24,6 +24,8 @@ public class Shader {
     private HashMap<String, Integer> uniformMap;
     private HashMap<String, Integer> attributeMap;
 
+
+
     public Shader() {
         programHandle = GLES20.glCreateProgram();
         uniformMap = new HashMap<>();
@@ -31,6 +33,8 @@ public class Shader {
         shaderMap = new HashMap<>();
         positionLoc = uvLoc = colorLoc = -1;
     }
+
+
 
     public Shader attach(int type, String src) {
         Integer v = null;

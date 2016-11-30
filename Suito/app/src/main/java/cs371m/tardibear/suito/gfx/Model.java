@@ -13,7 +13,6 @@ public class Model {
     private float[] rotation = new float[16];
 
 
-
     public Model() {
         Matrix.setIdentityM(translate,0);
         Matrix.setIdentityM(scale,0);
@@ -27,12 +26,21 @@ public class Model {
         translate(x,y,z);
     }
 
+    public void setTranslate(float[] t) {
+        Matrix.setIdentityM(translate,0);
+        translate(t);
+    }
+
     public float[] getTranslate() {
         return translate;
     }
 
     public void translate(float x, float y, float z) {
         Matrix.translateM(translate, 0, x, y, z);
+    }
+
+    public void translate(float[] t) {
+        Matrix.translateM(translate, 0,t[0], t[1], t[2]);
     }
 
     public void setScale(float s) {
@@ -51,7 +59,6 @@ public class Model {
     public void rotate(float theta) {
         Matrix.rotateM(rotation, 0, theta, 0.f,0.f,1.f);
     }
-
 
     //need to optimize
     public float[] createModelMatrix() {

@@ -1,0 +1,14 @@
+#version 300 es
+in vec3 a_position;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_persp;
+uniform vec4 u_color;
+uniform vec3 u_light_position;
+out vec3 vs_light_direction;
+void main()
+{
+    mat4 MVP = u_persp*u_view*u_model;
+    vs_light_direction = u_light_position - a_position;
+    gl_Position = MVP*vec4(a_position, 1.0f);
+}
