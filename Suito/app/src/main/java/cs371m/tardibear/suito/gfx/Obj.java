@@ -12,8 +12,8 @@ import java.util.Scanner;
 /**
  * Created by itoro on 11/20/16.
  */
-public class Obj {
 
+public class Obj {
 
     public short[] indices;
     private ArrayList<Short> indicesList;
@@ -61,16 +61,6 @@ public class Obj {
 
             }
             else if(flag.equals("f")){
-//                while(lineScanner.hasNext()){
-//                    String vertex = lineScanner.next();
-//                    indicesList.add(Short.parseShort(vertex));
-//                }
-//                indices = new short[indicesList.size()];
-//                for(int i = 0; i < indices.length; i++){
-//                    indices[i] = indicesList.get(i).shortValue();
-//                    indices[i] = 1;
-//                }
-
                 while(lineScanner.hasNextShort()){
                     short index = lineScanner.nextShort();
                     indicesList.add(index);
@@ -109,6 +99,7 @@ public class Obj {
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
                 sb.append("\n");
+
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -140,7 +131,7 @@ public class Obj {
                     padding[padindex+c] = 1.0f;
                 }
                 for(int uv = 0; uv < 2; uv++){
-                    padding[padindex+uv+4] = 0.0f;
+                    padding[padindex+uv+4] = 1.0f;
                 }
                 padindex += 6;
             }

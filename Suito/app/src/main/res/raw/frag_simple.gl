@@ -6,5 +6,7 @@ in vec2 v_uv ;
 layout(location = 0) out vec4 o_fragColor;
 void main()
 {
-    o_fragColor = v_color * texture(u_texture, v_uv);
+    //o_fragColor = v_color * texture(u_texture, v_uv);
+    o_fragColor = v_color ;
+
 }

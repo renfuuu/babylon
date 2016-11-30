@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true">
+
+    <LinearLayout
+        android:id="@+id/boid_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/boid_size"
+        android:layout_below="@+id/boid_name"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size: "/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/boid_color"
+        android:layout_below="@+id/boid_size"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Color: "/>
+
+
+
+    <SeekBar
+        android:id="@+id/red_slider"
+        android:layout_below="@id/boid_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/green_slider"
+        android:layout_below="@id/red_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/blue_slider"
+        android:layout_below="@+id/green_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Incentive Coefficents"/>
+
+    <SeekBar
+        android:id="@+id/separate_slider"
+        android:layout_below="@id/boid_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/align_slider"
+        android:layout_below="@id/red_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <SeekBar
+        android:id="@+id/cohere_slider"
+        android:layout_below="@+id/green_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

@@ -29,8 +29,8 @@ public class Flock {
         flock = new ArrayList<>();
         Random r = new Random();
         for (int i = 0; i < num; i++) {
-            int x = r.nextInt(x_bound)-x_bound;
-            int y = r.nextInt(y_bound)-y_bound;
+            int x = r.nextInt(x_bound);
+            int y = r.nextInt(y_bound);
             flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f)));
         }
     }

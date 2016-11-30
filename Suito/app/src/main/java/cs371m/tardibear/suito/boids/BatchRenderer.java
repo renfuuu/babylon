@@ -50,7 +50,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         parentContext = context;
         renderable = null;
         renderContext = new RenderContext();
-        boids = new Flock(3, 4, 7);
+        boids = new Flock(3, 4, 20);
     }
 
 //    public BatchRenderer(Context context, String objFile, boolean defaultMesh){
@@ -235,6 +235,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         for (Boid b:
              boids.flock) {
             renderable.getModel().setTranslate(b.getLocation().asArray());
+            renderable.setColor(b.getColor());
             renderable.getModel().createModelMatrix();
             renderable.draw(renderContext);
         }
@@ -244,7 +245,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         for (Boid b:
                 boids.flock) {
-            Log.d("renderloop", "boid " + b);
+//            Log.d("renderloop", "boid " + b);
         }
 
 //        for (Renderable r:

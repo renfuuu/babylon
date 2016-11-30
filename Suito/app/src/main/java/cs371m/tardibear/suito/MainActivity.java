@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //TODO remove snackbar for implicit intent
-                CollectionActivity.showSnackbar(view, "Developer Note: SD card intent here");
+//                CollectionActivity.showSnackbar(view, "Developer Note: SD card intent here");
+
             }
         });
 

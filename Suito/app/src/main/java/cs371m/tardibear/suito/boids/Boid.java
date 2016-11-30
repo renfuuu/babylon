@@ -23,7 +23,10 @@ public class Boid
                 temp = boid.getLocation().sub(o.getLocation());
                 float d = temp.len();
                 if((d>0) && (d < desiredSep)) {
+                    float dd = (desiredSep - d);
+                    dd *= dd;
                     temp.normalize();
+                    temp.scale(dd);
                     steer = steer.add(temp);
                     count++;
                 }
@@ -33,7 +36,7 @@ public class Boid
     }
 
     public static Vec3 separate(Boid boid, List<Boid> flock) {
-       return separate(boid, flock, 25.0f);
+       return separate(boid, flock, 1.5f);
     }
 
     public static Vec3 cohesion(Boid boid, List<Boid> flock, float neighborhoodDist) {
@@ -56,7 +59,7 @@ public class Boid
     }
 
     public static Vec3 cohesion(Boid boid, List<Boid> flock) {
-        return cohesion(boid, flock, 50.0f);
+        return cohesion(boid, flock, 1.5f);
     }
 
     public static Vec3 align(Boid boid, List<Boid> flock, float neighborhoodDist) {
@@ -81,7 +84,7 @@ public class Boid
     }
 
     public static Vec3 align(Boid boid, List<Boid> flock) {
-        return align(boid, flock, 50.0f);
+        return align(boid, flock, .5f);
     }
 
 
@@ -105,9 +108,9 @@ public class Boid
         velocity = steer;
         acceleration = new Vec3();
 
-        separateCoeff = 0.1f;
-        alignCoeff = 0.3f;
-        cohereCoeff = 0.6f;
+        separateCoeff = 0.34f;
+        alignCoeff = 0.31f;
+        cohereCoeff = 0.33f;
 
 
 
