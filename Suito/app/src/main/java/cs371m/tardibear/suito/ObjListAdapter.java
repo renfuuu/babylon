@@ -2,6 +2,7 @@ package cs371m.tardibear.suito;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,27 +18,30 @@ import junit.framework.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import cs371m.tardibear.suito.boids.Boid;
 import cs371m.tardibear.suito.gfx.Obj;
 
 /**
  * Created by itoro on 11/22/16.
  */
 
-public class ObjListAdapter extends ArrayAdapter<ObjModel> {
+public class ObjListAdapter extends ArrayAdapter<Boid> {
 
-    private List<ObjModel> objList;
+    private List<Boid> objList;
     private LayoutInflater inflater;
 
     static class ViewHolder{
 
         public TextView textView;
+        public ImageView imageView;
 
-        public ViewHolder(TextView _tv) {
+        public ViewHolder(TextView _tv, ImageView _iv) {
             textView = _tv;
+            imageView = _iv;
         }
     }
 
-    public ObjListAdapter(Context context, List<ObjModel> list){
+    public ObjListAdapter(Context context, List<Boid> list){
         super(context, R.layout.object_list_item, list);
         objList = list;
         inflater = LayoutInflater.from(getContext());
@@ -48,7 +52,7 @@ public class ObjListAdapter extends ArrayAdapter<ObjModel> {
         ViewHolder vh;
         if(convertView == null){
             convertView = inflater.inflate(R.layout.object_list_item, parent, false);
-            vh = new ViewHolder((TextView)convertView.findViewById(R.id.obj_title));
+            vh = new ViewHolder((TextView)convertView.findViewById(R.id.obj_title), (ImageView) convertView.findViewById(R.id.obj_pic));
             convertView.setTag(vh);
         }else{
             vh = (ViewHolder) convertView.getTag();
@@ -56,18 +60,8 @@ public class ObjListAdapter extends ArrayAdapter<ObjModel> {
 
 
         vh.textView.setText(objList.get(position).getName());
-        vh.textView.setOnClickListener(new View.OnClickListener(){
+        vh.imageView.setBackgroundColor(Color.HSVToColor(objList.get(position).getColor()));
 
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("OBJ_NAME", objList.get(position).getName());
-                b.putBoolean("OBJ_DEFAULT", objList.get(position).getIsDefault());
-                intent.putExtras(b);
-                getContext().startActivity(intent);
-            }
-        });
 
         return convertView;
     }

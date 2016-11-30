@@ -19,16 +19,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.List;
 
 import cs371m.tardibear.suito.boids.BatchRenderer;
 
-//import cs371m.tardibear.suito.gles.BatchRenderer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
+    private ObjListAdapter adapter;
 
     MediaPlayer track;
 
@@ -55,8 +58,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
         BatchRenderer batchRenderer = new BatchRenderer(this);
 //        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
@@ -80,6 +82,16 @@ public class MainActivity extends AppCompatActivity
             Log.e ( "SimpleTexture2D", "OpenGL ES 3.0 not supported on device.  Exiting..." );
             finish();
         }
+
+        adapter = new ObjListAdapter(this, batchRenderer.boids.getFlock());
+
+        ListView listView = (ListView) findViewById(R.id.drawer_list_view);
+        listView.setAdapter(adapter);
+        int width = getResources().getDisplayMetrics().widthPixels/3*2;
+        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) listView.getLayoutParams();
+        params.width = width;
+        listView.setLayoutParams(params);
+        //TODO when add button works, change the list.
 
         track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
         track.setLooping(true);
@@ -155,7 +167,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        //TODO: add functionality to the navigation drawer
         if (id == R.id.nav_background) {
             // Handle the camera action
         } else if (id == R.id.nav_color) {

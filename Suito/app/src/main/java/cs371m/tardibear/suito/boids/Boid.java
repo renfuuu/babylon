@@ -101,6 +101,7 @@ public class Boid
 
     private float[] weights;
     private Model model;
+    private String name;
 
     public Boid(float[] mColor, Vec3 mLocation, Vec3 steer) {
         this.color = mColor;
@@ -113,7 +114,11 @@ public class Boid
         cohereCoeff = 0.33f;
 
 
+    }
 
+    public Boid(float[] mColor, Vec3 mLocation, Vec3 steer, int id) {
+        this(mColor, mLocation, steer);
+        setName(id);
     }
 
     public Vec3 seek(Vec3 target) {
@@ -200,10 +205,19 @@ public class Boid
         acceleration = alignIncentive.add(separateIncentive).add(cohereIncentive);
     }
 
+    public void setName(int id){
+        this.name = "Boid #" + id;
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
     @Override
     public String toString() {
         return "Boid{" +
-                "location=" + location +
+                "name=" + name +
+                ", location=" + location +
                 ", velocity=" + velocity +
                 ", acceleration=" + acceleration +
                 ", separateIncentive=" + separateIncentive +

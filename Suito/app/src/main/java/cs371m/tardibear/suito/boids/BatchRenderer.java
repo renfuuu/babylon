@@ -42,7 +42,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     private int currentMesh;
     private String objFile;
 
-    private Flock boids;
+    public Flock boids;
 
 
 
@@ -231,6 +231,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         // Clear the color buffer
         GLES30.glClear ( GLES30.GL_COLOR_BUFFER_BIT );
 //        renderable.draw(renderContext);
+
 
         for (Boid b:
              boids.flock) {

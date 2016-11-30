@@ -31,8 +31,12 @@ public class Flock {
         for (int i = 0; i < num; i++) {
             int x = r.nextInt(x_bound);
             int y = r.nextInt(y_bound);
-            flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f)));
+            flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f), i+1));
         }
+    }
+
+    public List<Boid> getFlock(){
+        return this.flock;
     }
 
     public void update() {
