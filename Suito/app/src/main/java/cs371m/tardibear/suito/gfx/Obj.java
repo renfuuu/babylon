@@ -41,18 +41,6 @@ public class Obj {
             String flag = lineScanner.next();
             if(flag.equals("v")){
 
-                //TODO: sphere doesn't show up
-//                while(lineScanner.hasNext()){
-//                    String vertex = lineScanner.next();
-//                    verticesList.add(Float.parseFloat(vertex));
-//                }
-//                vertices = new float[verticesList.size()];
-//                for(int i = 0; i < vertices.length; i++){
-//                    vertices[i] = verticesList.get(i).floatValue();
-//                }
-
-
-//              TODO: null exception when sphere
                 while(lineScanner.hasNextFloat()){
                     float vertex = lineScanner.nextFloat();
                     verticesList.add(vertex);

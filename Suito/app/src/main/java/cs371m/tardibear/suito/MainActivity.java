@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
 
+    MediaPlayer track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         BatchRenderer batchRenderer = new BatchRenderer(this);
-        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
-        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
-        batchRenderer.setObj(getIntent().getExtras().getString("OBJ_NAME"), getIntent().getExtras().getBoolean("OBJ_DEFAULT"));
+//        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
+//        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
+        batchRenderer.setObj("Triangle", true);
 
         mGLSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
 
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity
             Log.e ( "SimpleTexture2D", "OpenGL ES 3.0 not supported on device.  Exiting..." );
             finish();
         }
+
+        track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
+        track.setLooping(true);
+        track.start();
     }
 
     private boolean detectOpenGLES30()
@@ -96,6 +102,8 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onResume();
         mGLSurfaceView.onResume();
+        track.start();
+
     }
 
     @Override
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
+        track.pause();
     }
 
 
