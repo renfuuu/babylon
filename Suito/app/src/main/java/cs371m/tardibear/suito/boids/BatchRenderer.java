@@ -170,51 +170,6 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         renderable.setTexture(mTextureDataHandle);
         renderable.attachShader(mShader);
         renderable.init();
-//
-//        renderables.add(rt);
-//        renderables.add(sprite);
-
-
-//        for (Renderable r:
-//                renderables) {
-//            r.attachShader(mShader);
-//            r.init();
-//            Log.d("RenderLoop", Graphics.tensorToString(renderContext.getPerspective()));
-//            Log.d("RenderLoop", Graphics.tensorToString(renderContext.getCamera().getViewMatrix()));
-//        }
-
-//        Model t = new Model();
-//        float[] fff = new float[4*20*grid.getC()*grid.getR()];
-//        FloatBuffer fb = FloatBuffer.wrap(fff);
-////        FloatBuffer fb = ByteBuffer.allocateDirect(4*20*grid.getC()*grid.getR()).order(ByteOrder.nativeOrder()).asFloatBuffer();
-//        for (HexTile hexTile:
-//                grid.map.values()) {
-//            float[] pos = grid.hexToPixel(hexTile);
-//            t.setTranslate(pos[0],pos[1],0.0f);
-//            t.setScale(.25f);
-//            fb.put(t.createModelMatrix());
-//            fb.put(Graphics.getRandomColor4());
-//        }
-
-
-//        float[] translations = new float[2*(grid.getR()* grid.getC())];
-//        for (int i = 0; i < grid.getR(); i++) {
-//            for (int j = 0; j < grid.getC(); j++) {
-//                float[] pos = grid.hexToPixel(grid.get(i,j));
-//                translations[2*(i*grid.getC()+j)] = pos[0];
-//                translations[2*(i*grid.getC()+j)+1] = pos[1];
-//            }
-//        }
-//
-//        it = new InstancedTarget(Graphics.getUnit2DHexagonVertices(), Graphics.getUnitHexagonIndicies(), fff);
-//        it.setTexture(mTextureDataHandle);
-//        it.attachShader(mInstancedShader);
-//        it.init();
-//        renderables.add(it);
-//        it.setColor(new float[] {0.0f, 0.0f, 1.0f, 1.0f});
-//        it.getModel().scale(.5f);
-//        it.getModel().createModelMatrix();
-//        renderables.add(it);
 
     }
 
@@ -241,7 +196,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderable.setColor(b.getColor());
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
-//                Log.d("renderloop", b.toString());
+                Log.d("renderloop", b.toString());
             }
             boids.update();
         }
