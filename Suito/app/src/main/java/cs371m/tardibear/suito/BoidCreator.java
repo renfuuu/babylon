@@ -120,10 +120,12 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         float red = (float) redSlider.getProgress()/ (float) redSlider.getMax();
         float green =  (float) greenSlider.getProgress()/ (float) greenSlider.getMax();
         float blue = (float) blueSlider.getProgress()/ (float) blueSlider.getMax();
-        
-        float sepCoef = separateSlider.getProgress()/separateSlider.getMax();
-        float aliCoef = alignSlider.getProgress()/alignSlider.getMax();
-        float cohCoef = cohereSlider.getProgress()/cohereSlider.getMax();
+
+        float sepCoef = (float) separateSlider.getProgress()/separateSlider.getMax();
+        float aliCoef = (float) alignSlider.getProgress()/alignSlider.getMax();
+        float cohCoef = (float) cohereSlider.getProgress()/cohereSlider.getMax();
+
+        Log.d("incentives: ", "" + sepCoef + "," + aliCoef + "," + cohCoef);
 
         String name = nameEditText.getText().toString();
 
