@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     private BatchRenderer batchRenderer;
     private ObjListAdapter adapter;
 
-    MediaPlayer track;
+    static MediaPlayer track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,25 +45,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                synchronized (batchRenderer.boids.getList()) {
-                    batchRenderer.boids.addRandomBoid();
-                }
-            }
-        });
-
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent i = new Intent(getApplicationContext(), BoidCreator.class);
-                startActivityForResult(i, RESULT_OK);
-                return true;
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,7 +87,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) listView.getLayoutParams();
         params.width = width;
         listView.setLayoutParams(params);
-        //TODO when add button works, change the list.
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                synchronized (batchRenderer.boids.getList()) {
+                    batchRenderer.boids.addRandomBoid();
+                    adapter.setObjList(batchRenderer.boids.getList());
+                }
+            }
+        });
+
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(getApplicationContext(), BoidCreator.class);
+                startActivityForResult(i, RESULT_OK);
+                return true;
+            }
+        });
 
         track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
         track.setLooping(true);

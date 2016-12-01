@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     android:layout_centerHorizontal="true">
 
     <LinearLayout
@@ -15,7 +17,7 @@
             android:text="Name: "/>
         <EditText
             android:id="@+id/boid_name"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -31,7 +33,7 @@
             android:text="Size: "/>
         <EditText
             android:id="@+id/boid_size_box"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"/>
     </LinearLayout>
@@ -44,23 +46,49 @@
         android:layout_height="wrap_content"
         android:text="Color: "/>
 
-
+    <TextView
+        android:id="@+id/red_slider_text"
+        android:layout_below="@id/boid_color"
+        android:text="R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <SeekBar
         android:id="@+id/red_slider"
         android:layout_below="@id/boid_color"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/red_slider_text"/>
+
+
+    <TextView
+        android:id="@+id/green_slider_text"
+        android:layout_below="@id/red_slider"
+        android:text="G"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <SeekBar
         android:id="@+id/green_slider"
         android:layout_below="@id/red_slider"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/green_slider_text"/>
+
+    <TextView
+        android:id="@+id/blue_slider_text"
+        android:layout_below="@id/green_slider"
+        android:text="B"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <SeekBar
         android:id="@+id/blue_slider"
         android:layout_below="@+id/green_slider"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/blue_slider_text"
+        />
 
     <TextView
 

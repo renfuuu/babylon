@@ -3,6 +3,7 @@ package cs371m.tardibear.suito;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,8 @@ public class BoidCreator extends Activity implements View.OnClickListener {
     private SeekBar cohereSlider;
 
     private Button createButton;
+
+    private MediaPlayer track;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -60,6 +63,9 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         configureSeekBar(separateSlider);
         configureSeekBar(alignSlider);
         configureSeekBar(cohereSlider);
+
+        track = MainActivity.track;
+        track.start();
     }
 
     private void configureSeekBar(SeekBar sb) {
@@ -107,6 +113,25 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         result.putExtra("coh", cohCoef);
         setResult(RESULT_OK, result);
         finish();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onResume();
+        track.start();
+
+    }
+
+    @Override
+    protected void onPause()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onPause();
+        track.pause();
     }
 
 

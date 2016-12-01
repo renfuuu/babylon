@@ -123,6 +123,16 @@ public class Boid
 
     }
 
+
+
+    public Boid(String name, float size, Vec4 color, Vec3 incentives, Vec3 location, Vec3 steer, Flock flock) {
+        this(name, size, color, incentives, location, steer);
+        if(name == null){
+            setName(flock);
+        }
+
+    }
+
     public Boid(float[] mColor, Vec3 mLocation, Vec3 steer) {
         this.color = mColor;
         this.location = mLocation;
@@ -137,9 +147,10 @@ public class Boid
 
     }
 
-    public Boid(float[] mColor, Vec3 mLocation, Vec3 steer, int id) {
+    public Boid(float[] mColor, Vec3 mLocation, Vec3 steer, Flock flock) {
         this(mColor, mLocation, steer);
-        setName(id);
+        setName(flock);
+
     }
 
     public Vec3 seek(Vec3 target) {
@@ -226,8 +237,12 @@ public class Boid
         acceleration = alignIncentive.add(separateIncentive).add(cohereIncentive);
     }
 
-    public void setName(int id){
-        this.name = "Boid #" + id;
+    public void setName(Flock flock){
+        this.name = "Boid #" + (flock.size() + 1);
+    }
+
+    private void setName(String name) {
+        this.name = "Boid " + name;
     }
 
     public String getName(){
