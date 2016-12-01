@@ -89,7 +89,7 @@ public class Boid
     public static Vec3 align(Boid boid, List<Boid> flock) {
         return align(boid, flock, .5f);
     }
-    
+
     private float[] color;
     private Vec3 location;
     private Vec3 velocity;
@@ -113,17 +113,16 @@ public class Boid
         this.size = size;
         this.location = location;
         this.velocity = steer;
-
+        velocity.scale(2.0f);
         location.setZ(0);
         velocity.setZ(0);
         separateCoeff = incentives.asArray()[0];
         alignCoeff = incentives.asArray()[1];
         cohereCoeff = incentives.asArray()[2];
         this.color = color.asArray();
-
+        acceleration = new Vec3();
     }
-
-
+    
 
     public Boid(String name, float size, Vec4 color, Vec3 incentives, Vec3 location, Vec3 steer, Flock flock) {
         this(name, size, color, incentives, location, steer);
@@ -152,6 +151,8 @@ public class Boid
         setName(flock);
 
     }
+
+
 
     public Vec3 seek(Vec3 target) {
         Vec3 des = target.sub(location);
