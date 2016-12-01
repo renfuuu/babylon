@@ -134,7 +134,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 8.0f;
+        final float eyeZ = 5.0f;
 
         final float lookX = 0.0f;
         final float lookY = 0.0f;
@@ -237,19 +237,10 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderable.setColor(b.getColor());
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
+                Log.d("renderloop", b.toString());
             }
+            boids.update();
         }
-
-        for (Boid b:
-                boids.flock) {
-//            Log.d("renderloop", "boid " + b);
-        }
-
-//        for (Renderable r:
-//                renderables) {
-//            r.draw(renderContext);
-//        }
-
     }
 
     public void onPause(){}
