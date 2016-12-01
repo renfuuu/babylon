@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -27,6 +30,9 @@ public class BoidCreator extends Activity implements View.OnClickListener {
     private SeekBar cohereSlider;
 
     private Button createButton;
+    private Button cancelButton;
+
+    private TextView snackBarText;
 
     private MediaPlayer track;
 
@@ -48,6 +54,19 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         createButton = (Button) findViewById(R.id.create_boid_button);
 
         createButton.setOnClickListener(this);
+
+        cancelButton = (Button) findViewById(R.id.cancel_btn);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+
+        snackBarText = (TextView) findViewById(R.id.snackbar_text);
+
 
         redSlider.setMax(256);
         greenSlider.setMax(256);
@@ -92,7 +111,11 @@ public class BoidCreator extends Activity implements View.OnClickListener {
 
         Intent result = new Intent();
 
-        float size = Float.parseFloat(sizeEditText.getText().toString());
+        float size = -1;
+        if(!sizeEditText.getText().toString().equals("")){
+            size = Float.parseFloat(sizeEditText.getText().toString());
+        }
+
         float red = redSlider.getProgress()/redSlider.getMax();
         float green = greenSlider.getProgress()/greenSlider.getMax();
         float blue = blueSlider.getProgress()/blueSlider.getMax();;
@@ -111,8 +134,14 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         result.putExtra("sep", sepCoef);
         result.putExtra("ali", aliCoef);
         result.putExtra("coh", cohCoef);
-        setResult(1, result);
-        finish();
+
+        if(name.equals(null) || name == null || size == -1 || name.equals("")){
+            Snackbar.make(snackBarText, "Error! Enter correct values or Press Cancel", Snackbar.LENGTH_LONG).show();
+        }
+        else{
+            setResult(RESULT_OK, result);
+            finish();
+        }
     }
 
 }
