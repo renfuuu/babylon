@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(getApplicationContext(), BoidCreator.class);
-                startActivityForResult(i, RESULT_OK);
+                startActivityForResult(i, 1);
                 return true;
             }
         });
