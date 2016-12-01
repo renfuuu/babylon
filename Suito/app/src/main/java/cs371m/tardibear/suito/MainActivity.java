@@ -101,8 +101,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Intent i = new Intent(MainActivity.this, BoidCreator.class);
-                MainActivity.this.startActivityForResult(i, RESULT_OK);
+
+                Intent i = new Intent(getApplicationContext(), BoidCreator.class);
+                startActivityForResult(i, 1);
                 return true;
             }
         });
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity
 
         String name = data.getStringExtra("name");
         float size = data.getFloatExtra("size", 1.0f);
+        Log.d("size", Float.toString(size));
         float r = data.getFloatExtra("red", 0);
         float g = data.getFloatExtra("green", 0);
         float b = data.getFloatExtra("blue", 0);

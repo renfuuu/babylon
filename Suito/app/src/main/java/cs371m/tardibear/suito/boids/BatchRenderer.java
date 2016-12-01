@@ -241,7 +241,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderable.setColor(b.getColor());
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
-                Log.d("renderloop", b.toString());
+//                Log.d("renderloop", b.toString());
             }
             boids.update();
         }
