@@ -8,23 +8,32 @@ import java.util.Arrays;
  * Created by kaleb on 11/29/2016.
  */
 
-public class Vec3 {
+public class Vec4 {
     private float[] con;
 
-    public Vec3() {
-        con = new float[3];
+
+    public Vec4() {
+        con = new float[4];
     }
 
-    public Vec3(float x, float y, float z) {
-        con = new float[] {x,y,z};
+    public Vec4(Vec3 vec3) {
+        con = new float[4];
+        float[] o = vec3.asArray();
+        for (int i = 0; i < o.length; i++) {
+            con[i] = o[i];
+        }
+    }
+
+    public Vec4(float x, float y, float z, float w) {
+        con = new float[] {x,y,z,w};
     }
 
     public float[] asArray() {
         return con;
     }
 
-    public Vec3 add(Vec3 other) {
-        Vec3 temp = new Vec3();
+    public Vec4 add(Vec4 other) {
+        Vec4 temp = new Vec4();
 
         for (int i = 0; i < con.length; i++) {
             temp.con[i] = con[i] + other.con[i];
@@ -32,8 +41,8 @@ public class Vec3 {
         return temp;
     }
 
-    public Vec3 sub(Vec3 other) {
-        Vec3 temp = new Vec3();
+    public Vec4 sub(Vec4 other) {
+        Vec4 temp = new Vec4();
 
         for (int i = 0; i < con.length; i++) {
             temp.con[i] = con[i] - other.con[i];
@@ -41,7 +50,7 @@ public class Vec3 {
         return temp;
     }
 
-    public float dot(Vec3 other) {
+    public float dot(Vec4 other) {
         float t = 0.0f;
         for (int i = 0; i < con.length; i++) {
             t += con[i]*other.con[i];
@@ -65,29 +74,9 @@ public class Vec3 {
 
     @Override
     public String toString() {
-        return "Vec3{" +
+        return "Vec4{" +
                 "con=" + Arrays.toString(con) +
                 "len=" +len()+
                 '}';
-    }
-
-    public static Vec3 randomVec3() {
-        Vec3 r = new Vec3();
-        for (int i = 0; i < r.con.length; i++) {
-            r.con[i] = ((float)Math.random());
-        }
-        return r;
-    }
-
-    public void setZ(float z) {
-        con[2] = z;
-    }
-
-    public void setX(float x) {
-        con[0] = x;
-    }
-
-    public void setY(float y) {
-        con[1] = y;
     }
 }

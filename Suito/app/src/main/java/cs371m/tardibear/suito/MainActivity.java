@@ -20,15 +20,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import cs371m.tardibear.suito.boids.BatchRenderer;
+import cs371m.tardibear.suito.boids.Vec3;
+import cs371m.tardibear.suito.boids.Vec4;
 
 //import cs371m.tardibear.suito.gles.BatchRenderer;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements  NavigationView.OnNavigationItemSelectedListener{
 
     private final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
-
+    private BatchRenderer batchRenderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,22 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO remove snackbar for implicit intent
-//                CollectionActivity.showSnackbar(view, "Developer Note: SD card intent here");
+                synchronized (batchRenderer.boids.getList()) {
+                    batchRenderer.boids.addRandomBoid();
+                }
+            }
+        });
 
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(getApplicationContext(), BoidCreator.class);
+                startActivityForResult(i, RESULT_OK);
+                return true;
             }
         });
 
@@ -56,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        BatchRenderer batchRenderer = new BatchRenderer(this);
+        batchRenderer = new BatchRenderer(this);
         Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
         Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
         batchRenderer.setObj(getIntent().getExtras().getString("OBJ_NAME"), getIntent().getExtras().getBoolean("OBJ_DEFAULT"));
@@ -105,6 +117,26 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+        if(resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            String name = data.getStringExtra("name");
+            float size = data.getFloatExtra("size", 1.0f);
+            float r = data.getFloatExtra("red", 0);
+            float g = data.getFloatExtra("blue", 0);
+            float b = data.getFloatExtra("green", 0);
+
+            float s = data.getFloatExtra("sep", .1f);
+            float a = data.getFloatExtra("ali", .1f);
+            float c = data.getFloatExtra("coh", .1f);
+            Log.d("MainActivity", "creating a new boid");
+            batchRenderer.boids.addBoid(name, size, new Vec4(r,g,b,1.0f), new Vec3(s,a,c));
+
+            Log.d("MainActivity", "Flock size : "+batchRenderer.boids.size());
+        }
     }
 
 

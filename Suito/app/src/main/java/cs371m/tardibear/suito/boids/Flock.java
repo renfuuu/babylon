@@ -14,8 +14,18 @@ public class Flock {
 
     List<Boid> flock;
 
+
+
     public Flock(List<Boid> flock) {
         this.flock = flock;
+    }
+
+    public int size() {
+        return flock.size();
+    }
+
+    public List<Boid> getList() {
+        return flock;
     }
 
     public Flock() {
@@ -33,6 +43,16 @@ public class Flock {
             int y = r.nextInt(y_bound);
             flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f)));
         }
+    }
+
+    public void addBoid(String name, float size,  Vec4 color, Vec3 coeffs) {
+        Random r = new Random();
+        Boid b = new Boid(name, size, color, coeffs, Vec3.randomVec3(), Vec3.randomVec3());
+        flock.add(b);
+    }
+
+    public void addRandomBoid() {
+        addBoid("Boid"+Boid.instances, 1.0f, new Vec4(Vec3.randomVec3()), Vec3.randomVec3());
     }
 
     public void update() {

@@ -42,7 +42,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     private int currentMesh;
     private String objFile;
 
-    private Flock boids;
+    public Flock boids;
 
 
 
@@ -50,7 +50,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         parentContext = context;
         renderable = null;
         renderContext = new RenderContext();
-        boids = new Flock(3, 4, 20);
+        boids = new Flock(3, 4, 0);
     }
 
 //    public BatchRenderer(Context context, String objFile, boolean defaultMesh){
@@ -134,7 +134,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         final float eyeX = 0.0f;
         final float eyeY = 0.0f;
-        final float eyeZ = 5.0f;
+        final float eyeZ = 8.0f;
 
         final float lookX = 0.0f;
         final float lookY = 0.0f;
@@ -230,18 +230,17 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         // Clear the color buffer
         GLES30.glClear ( GLES30.GL_COLOR_BUFFER_BIT );
-//        renderable.draw(renderContext);
+        synchronized (boids.getList()) {
+            for (Boid b :
+                    boids.flock) {
+                renderable.getModel().setTranslate(b.getLocation().asArray());
+                renderable.setColor(b.getColor());
+                renderable.getModel().createModelMatrix();
+                renderable.draw(renderContext);
+            }
 
-        for (Boid b:
-             boids.flock) {
-            renderable.getModel().setTranslate(b.getLocation().asArray());
-            renderable.setColor(b.getColor());
-            renderable.getModel().createModelMatrix();
-            renderable.draw(renderContext);
+            boids.update();
         }
-
-        int i =0;
-        boids.update();
 
         for (Boid b:
                 boids.flock) {

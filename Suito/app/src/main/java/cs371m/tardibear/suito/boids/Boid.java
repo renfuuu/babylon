@@ -1,5 +1,7 @@
 package cs371m.tardibear.suito.boids;
 
+import android.support.v4.graphics.ColorUtils;
+
 import java.util.List;
 
 import cs371m.tardibear.suito.gfx.Model;
@@ -10,6 +12,7 @@ import cs371m.tardibear.suito.gfx.Model;
 
 public class Boid
 {
+    public static int instances = 0;
 
     public static final float MAX_SPEED = 0.01f;
 
@@ -88,6 +91,8 @@ public class Boid
     }
 
 
+    private String name;
+
     private float[] color;
     private Vec3 location;
     private Vec3 velocity;
@@ -99,8 +104,26 @@ public class Boid
     private float alignCoeff;
     private float cohereCoeff;
 
+    private float size;
+
     private float[] weights;
     private Model model;
+
+
+    public Boid(String name, float size, Vec4 color, Vec3 incentives, Vec3 location, Vec3 steer) {
+        this.name = name;
+        this.size = size;
+        this.location = location;
+        this.velocity = steer;
+
+        location.setZ(0);
+        velocity.setZ(0);
+        separateCoeff = incentives.asArray()[0];
+        alignCoeff = incentives.asArray()[1];
+        cohereCoeff = incentives.asArray()[2];
+        this.color = color.asArray();
+
+    }
 
     public Boid(float[] mColor, Vec3 mLocation, Vec3 steer) {
         this.color = mColor;
@@ -112,7 +135,7 @@ public class Boid
         alignCoeff = 0.31f;
         cohereCoeff = 0.33f;
 
-
+        instances++;
 
     }
 
