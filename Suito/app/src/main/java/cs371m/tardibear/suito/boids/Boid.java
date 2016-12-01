@@ -89,10 +89,7 @@ public class Boid
     public static Vec3 align(Boid boid, List<Boid> flock) {
         return align(boid, flock, .5f);
     }
-
-
-    private String name;
-
+    
     private float[] color;
     private Vec3 location;
     private Vec3 velocity;
@@ -136,12 +133,9 @@ public class Boid
         alignCoeff = 0.31f;
         cohereCoeff = 0.33f;
 
-<<<<<<< HEAD
         instances++;
-=======
 
     }
->>>>>>> 401f326c82a58e9f79adfde243653a6fc8f8d886
 
     public Boid(float[] mColor, Vec3 mLocation, Vec3 steer, int id) {
         this(mColor, mLocation, steer);
