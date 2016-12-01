@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ConfigurationInfo;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,12 +19,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.List;
 
 import cs371m.tardibear.suito.boids.BatchRenderer;
 import cs371m.tardibear.suito.boids.Vec3;
 import cs371m.tardibear.suito.boids.Vec4;
 
-//import cs371m.tardibear.suito.gles.BatchRenderer;
 
 public class MainActivity extends AppCompatActivity
         implements  NavigationView.OnNavigationItemSelectedListener{
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     private final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
     private BatchRenderer batchRenderer;
+    private ObjListAdapter adapter;
+
+    MediaPlayer track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +71,13 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
+
 
         batchRenderer = new BatchRenderer(this);
-        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
-        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
-        batchRenderer.setObj(getIntent().getExtras().getString("OBJ_NAME"), getIntent().getExtras().getBoolean("OBJ_DEFAULT"));
+//        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
+//        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
+        batchRenderer.setObj("Triangle", true);
 
         mGLSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
 
@@ -90,6 +96,20 @@ public class MainActivity extends AppCompatActivity
             Log.e ( "SimpleTexture2D", "OpenGL ES 3.0 not supported on device.  Exiting..." );
             finish();
         }
+
+        adapter = new ObjListAdapter(this, batchRenderer.boids.getList());
+
+        ListView listView = (ListView) findViewById(R.id.drawer_list_view);
+        listView.setAdapter(adapter);
+        int width = getResources().getDisplayMetrics().widthPixels/3*2;
+        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) listView.getLayoutParams();
+        params.width = width;
+        listView.setLayoutParams(params);
+        //TODO when add button works, change the list.
+
+        track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
+        track.setLooping(true);
+        track.start();
     }
 
     private boolean detectOpenGLES30()
@@ -108,6 +128,8 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onResume();
         mGLSurfaceView.onResume();
+        track.start();
+
     }
 
     @Override
@@ -117,6 +139,7 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
+        track.pause();
     }
 
     @Override
@@ -178,7 +201,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        //TODO: add functionality to the navigation drawer
         if (id == R.id.nav_background) {
             // Handle the camera action
         } else if (id == R.id.nav_color) {

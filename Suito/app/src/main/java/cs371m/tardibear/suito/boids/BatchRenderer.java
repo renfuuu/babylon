@@ -238,8 +238,6 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
             }
-
-            boids.update();
         }
 
         for (Boid b:
