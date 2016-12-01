@@ -60,10 +60,15 @@ public class ObjListAdapter extends ArrayAdapter<Boid> {
 
 
         vh.textView.setText(objList.get(position).getName());
-        vh.imageView.setBackgroundColor(Color.HSVToColor(objList.get(position).getColor()));
+        vh.imageView.setBackgroundColor(Color.rgb(Math.round(objList.get(position).getColor()[0] * 255), Math.round(objList.get(position).getColor()[1] * 255), Math.round(objList.get(position).getColor()[2] * 255)));
 
 
         return convertView;
+    }
+
+    public void setObjList(List<Boid> boids){
+        this.objList = boids;
+        notifyDataSetChanged();
     }
 
     @Override

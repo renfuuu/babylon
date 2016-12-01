@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     private BatchRenderer batchRenderer;
     private ObjListAdapter adapter;
 
-    MediaPlayer track;
+    static MediaPlayer track;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,26 +44,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                synchronized (batchRenderer.boids.getList()) {
-                    batchRenderer.boids.addRandomBoid();
-                }
-            }
-        });
-
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent i = new Intent(getApplicationContext(), BoidCreator.class);
-                startActivityForResult(i, 0);
-                return true;
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -105,7 +85,27 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) listView.getLayoutParams();
         params.width = width;
         listView.setLayoutParams(params);
-        //TODO when add button works, change the list.
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                synchronized (batchRenderer.boids.getList()) {
+                    batchRenderer.boids.addRandomBoid();
+                    adapter.setObjList(batchRenderer.boids.getList());
+                }
+            }
+        });
+
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(MainActivity.this, BoidCreator.class);
+                MainActivity.this.startActivityForResult(i, RESULT_OK);
+                return true;
+            }
+        });
 
         track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
         track.setLooping(true);
@@ -145,22 +145,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
 
-        if(resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            String name = data.getStringExtra("name");
-            float size = data.getFloatExtra("size", 1.0f);
-            float r = data.getFloatExtra("red", 0);
-            float g = data.getFloatExtra("green", 0);
-            float b = data.getFloatExtra("blue", 0);
+        String name = data.getStringExtra("name");
+        float size = data.getFloatExtra("size", 1.0f);
+        float r = data.getFloatExtra("red", 0);
+        float g = data.getFloatExtra("green", 0);
+        float b = data.getFloatExtra("blue", 0);
 
-            float s = data.getFloatExtra("sep", .1f);
-            float a = data.getFloatExtra("ali", .1f);
-            float c = data.getFloatExtra("coh", .1f);
-            Log.d("MainActivity", "creating a new boid");
-            batchRenderer.boids.addBoid(name, size, new Vec4(r,g,b,1.0f), new Vec3(s,a,c));
-
-            Log.d("MainActivity", "Flock size : "+batchRenderer.boids.size());
+        float s = data.getFloatExtra("sep", .1f);
+        float a = data.getFloatExtra("ali", .1f);
+        float c = data.getFloatExtra("coh", .1f);
+        Log.d("MainActivity", "creating a new boid");
+        synchronized (batchRenderer.boids.getList()) {
+            batchRenderer.boids.addBoid(name, size, new Vec4(r, g, b, 1.0f), new Vec3(s, a, c));
         }
+        adapter.setObjList(batchRenderer.boids.getList());
+
+        Log.d("MainActivity", "Flock size : "+batchRenderer.boids.size());
     }
 
 

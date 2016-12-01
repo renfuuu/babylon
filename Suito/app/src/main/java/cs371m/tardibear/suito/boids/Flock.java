@@ -41,18 +41,18 @@ public class Flock {
         for (int i = 0; i < num; i++) {
             int x = r.nextInt(x_bound);
             int y = r.nextInt(y_bound);
-            flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f), i+1));
+            flock.add(new Boid(Graphics.getRandomColor4(), new Vec3(x, y, 0.0f), new Vec3(x, y, 0.0f), this));
         }
     }
 
     public void addBoid(String name, float size,  Vec4 color, Vec3 coeffs) {
         Random r = new Random();
-        Boid b = new Boid(name, size, color, coeffs, Vec3.randomVec3(), Vec3.randomVec3());
+        Boid b = new Boid(name, size, color, coeffs, Vec3.randomVec3(), Vec3.randomVec3(), this);
         flock.add(b);
     }
 
     public void addRandomBoid() {
-        addBoid("Boid"+Boid.instances, 1.0f, new Vec4(Vec3.randomVec3()), Vec3.randomVec3());
+        addBoid(null, 1.0f, new Vec4(Vec3.randomVec3()), Vec3.randomVec3());
     }
 
     public void update() {
