@@ -133,8 +133,8 @@ public class Boid
         separateCoeff = 0.34f;
         alignCoeff = 0.31f;
         cohereCoeff = 0.33f;
-
-        instances++;
+        size = 0;
+        setName(instances++);
 
     }
 
@@ -248,5 +248,9 @@ public class Boid
                 ", alignIncentive=" + alignIncentive +
                 ", cohereIncentive=" + cohereIncentive +
                 '}';
+    }
+
+    public float getSize() {
+        return size;
     }
 }

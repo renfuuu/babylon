@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onLongClick(View view) {
                 Intent i = new Intent(getApplicationContext(), BoidCreator.class);
-                startActivityForResult(i, RESULT_OK);
+                startActivityForResult(i, 0);
                 return true;
             }
         });
@@ -144,13 +144,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+
         if(resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             String name = data.getStringExtra("name");
             float size = data.getFloatExtra("size", 1.0f);
             float r = data.getFloatExtra("red", 0);
-            float g = data.getFloatExtra("blue", 0);
-            float b = data.getFloatExtra("green", 0);
+            float g = data.getFloatExtra("green", 0);
+            float b = data.getFloatExtra("blue", 0);
 
             float s = data.getFloatExtra("sep", .1f);
             float a = data.getFloatExtra("ali", .1f);

@@ -44,6 +44,8 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
     public Flock boids;
 
+    private float worldSize;
+
 
 
     public BatchRenderer(Context context) {
@@ -125,6 +127,8 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 
         Assert.assertNotNull(mesh);
 
+        worldSize = 10.0f;
+
         String TAG = "objLoader";
         for (int i = 0; i < 3; i++) {
             Log.d(TAG,Float.toString(mesh.vertices[i]));
@@ -161,7 +165,6 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
 //        Sprite sprite = new Sprite();
 
         renderable.setColor(new float[]{1.0f, 0.0f, 0.0f, 1.0f});
-        renderable.getModel().setScale(10.0f);
         renderable.getModel().createModelMatrix();
 //        sprite.setColor(new float[] {0.0f, 1.0f, 0.0f, 1.0f});
         renderable.setTexture(mTextureDataHandle);
@@ -234,6 +237,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
             for (Boid b :
                     boids.flock) {
                 renderable.getModel().setTranslate(b.getLocation().asArray());
+                renderable.getModel().setScale(b.getSize()+worldSize);
                 renderable.setColor(b.getColor());
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
