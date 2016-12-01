@@ -122,7 +122,7 @@ public class Boid
         this.color = color.asArray();
         acceleration = new Vec3();
     }
-    
+
 
     public Boid(String name, float size, Vec4 color, Vec3 incentives, Vec3 location, Vec3 steer, Flock flock) {
         this(name, size, color, incentives, location, steer);
