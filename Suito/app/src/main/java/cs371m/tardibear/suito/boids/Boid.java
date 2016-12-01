@@ -260,6 +260,7 @@ public class Boid
                 ", separateIncentive=" + separateIncentive +
                 ", alignIncentive=" + alignIncentive +
                 ", cohereIncentive=" + cohereIncentive +
+                ", color=(" + color[0] + "," + color[1] + "," + color[2] + ")" +
                 '}';
     }
 }

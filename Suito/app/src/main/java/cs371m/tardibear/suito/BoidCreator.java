@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -116,10 +117,10 @@ public class BoidCreator extends Activity implements View.OnClickListener {
             size = Float.parseFloat(sizeEditText.getText().toString());
         }
 
-        float red = redSlider.getProgress()/redSlider.getMax();
-        float green = greenSlider.getProgress()/greenSlider.getMax();
-        float blue = blueSlider.getProgress()/blueSlider.getMax();;
-
+        float red = (float) redSlider.getProgress()/ (float) redSlider.getMax();
+        float green =  (float) greenSlider.getProgress()/ (float) greenSlider.getMax();
+        float blue = (float) blueSlider.getProgress()/ (float) blueSlider.getMax();
+        
         float sepCoef = separateSlider.getProgress()/separateSlider.getMax();
         float aliCoef = alignSlider.getProgress()/alignSlider.getMax();
         float cohCoef = cohereSlider.getProgress()/cohereSlider.getMax();
