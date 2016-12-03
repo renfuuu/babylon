@@ -4,12 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import cs371m.tardibear.suito.gles.VAO;
 
 //import org.tardibear.enki.mkii.VAO;
 
 /**
- * Created by kaleb on 3/10/16.
+ * Created by itoro on 3/10/16.
  */
 public class SplashActivity extends AppCompatActivity {
 
