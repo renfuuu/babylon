@@ -3,7 +3,12 @@ package cs371m.tardibear.suito;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.ConfigurationInfo;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -26,17 +31,30 @@ import java.util.List;
 import cs371m.tardibear.suito.boids.BatchRenderer;
 import cs371m.tardibear.suito.boids.Vec3;
 import cs371m.tardibear.suito.boids.Vec4;
+import cs371m.tardibear.suito.gfx.Graphics;
 
 
 public class MainActivity extends AppCompatActivity
-        implements  NavigationView.OnNavigationItemSelectedListener{
+        implements  NavigationView.OnNavigationItemSelectedListener,
+        SensorEventListener{
 
+    private static final float EPSILON = 0.001f;
     private final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
     private BatchRenderer batchRenderer;
     private ObjListAdapter adapter;
 
+
+
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private static final float nanoToSeconds  = 1.0f/1000000000.0f;
+    private final float[] deviceRotationVector = new float[4];
+    private float sensorTimestamp;
+
     static MediaPlayer track;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +81,6 @@ public class MainActivity extends AppCompatActivity
 
         if ( detectOpenGLES30() )
         {
-            assert (false);
             // Tell the surface view we want to create an OpenGL ES 3.0-compatible
             // context, and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView.setEGLContextClientVersion ( CONTEXT_CLIENT_VERSION );
@@ -122,6 +139,62 @@ public class MainActivity extends AppCompatActivity
         return ( info.reqGlEsVersion >= 0x3200 );
     }
 
+//    following code is set up gyroscope is inspired by example on Android API
+//    https://developer.android.com/guide/topics/sensors/sensors_motion.html
+
+    private void initHardwareSensors() {
+        mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+    }
+
+
+    private float sin(float s) {
+        return ((float)Math.sin(s));
+    }
+
+    private float cos(float s) {
+        return ((float)Math.cos(s));
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+
+        if(sensorTimestamp != 0) {
+            final float dT = (event.timestamp - sensorTimestamp) * nanoToSeconds;
+            float axisX = event.values[0];
+            float axisY = event.values[1];
+            float axisZ = event.values[2];
+            double dd = (double) (axisX * axisX + axisY * axisY + axisZ * axisZ);
+            float omegaMagnitude = (float) (Math.sqrt(dd));
+            if (omegaMagnitude > EPSILON) {
+                axisX /= omegaMagnitude;
+                axisY /= omegaMagnitude;
+                axisZ /= omegaMagnitude;
+            }
+
+            float thetaOverTwo = omegaMagnitude * dT / 2.0f;
+            float sinThetaOverTwo = sin(thetaOverTwo);
+            float cosThetaOverTwo = cos(thetaOverTwo);
+            deviceRotationVector[0] = sinThetaOverTwo * axisX;
+            deviceRotationVector[1] = sinThetaOverTwo * axisY;
+            deviceRotationVector[2] = sinThetaOverTwo * axisZ;
+            deviceRotationVector[3] = cosThetaOverTwo;
+        }
+        sensorTimestamp = event.timestamp;
+        float[] rotMatrix = new float[9];
+
+        SensorManager.getRotationMatrixFromVector(rotMatrix, deviceRotationVector);
+        Log.d("Sensor", Graphics.tensorToString(rotMatrix));
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+
     @Override
     protected void onResume()
     {
@@ -145,24 +218,26 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+        if(resultCode == RESULT_OK) {
 
-        String name = data.getStringExtra("name");
-        float size = data.getFloatExtra("size", 1.0f);
-        Log.d("size", Float.toString(size));
-        float r = data.getFloatExtra("red", 0);
-        float g = data.getFloatExtra("green", 0);
-        float b = data.getFloatExtra("blue", 0);
+            String name = data.getStringExtra("name");
+            float size = data.getFloatExtra("size", 1.0f);
+            Log.d("size", Float.toString(size));
+            float r = data.getFloatExtra("red", 0);
+            float g = data.getFloatExtra("green", 0);
+            float b = data.getFloatExtra("blue", 0);
 
-        float s = data.getFloatExtra("sep", .1f);
-        float a = data.getFloatExtra("ali", .1f);
-        float c = data.getFloatExtra("coh", .1f);
-        Log.d("MainActivity", "creating a new boid");
-        synchronized (batchRenderer.boids.getList()) {
-            batchRenderer.boids.addBoid(name, size, new Vec4(r, g, b, 1.0f), new Vec3(s, a, c));
+            float s = data.getFloatExtra("sep", .1f);
+            float a = data.getFloatExtra("ali", .1f);
+            float c = data.getFloatExtra("coh", .1f);
+            Log.d("MainActivity", "creating a new boid");
+            synchronized (batchRenderer.boids.getList()) {
+                batchRenderer.boids.addBoid(name, size, new Vec4(r, g, b, 1.0f), new Vec3(s, a, c));
+            }
+            adapter.setObjList(batchRenderer.boids.getList());
+
+            Log.d("MainActivity", "Flock size : " + batchRenderer.boids.size());
         }
-        adapter.setObjList(batchRenderer.boids.getList());
-
-        Log.d("MainActivity", "Flock size : "+batchRenderer.boids.size());
     }
 
 
