@@ -1,8 +1,8 @@
 package cs371m.tardibear.suito.gfx;
 
-import cs371m.tardibear.suito.gles.GLCallback;
-import cs371m.tardibear.suito.gles.RenderTarget;
-import cs371m.tardibear.suito.gles.Renderable;
+import cs371m.tardibear.suito.boids.GLCallback;
+import cs371m.tardibear.suito.boids.RenderTarget;
+import cs371m.tardibear.suito.boids.Renderable;
 
 /**
  * Created by kaleb on 28/10/16.
