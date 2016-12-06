@@ -149,6 +149,11 @@ public class BoidCreator extends Activity implements View.OnClickListener {
             inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
             Snackbar.make(snackBarText, "Enter Correct Values or Press Cancel", Snackbar.LENGTH_LONG).show();
         }
+        else if(size > 39){
+            InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+            Snackbar.make(snackBarText, "Enter a size less than 40", Snackbar.LENGTH_LONG).show();
+        }
         else{
             setResult(RESULT_OK, result);
             finish();
