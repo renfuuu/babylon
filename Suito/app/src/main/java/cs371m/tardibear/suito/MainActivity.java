@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.Arrays;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     private boolean hasReferenceVector;
 
     static MediaPlayer track;
-    static boolean playing;
+    static boolean playing = true;
 
 
 
@@ -80,6 +81,17 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         hasReferenceVector = false;
+
+        ImageView imageCoachingOverlay = (ImageView) findViewById(R.id.imageCoachingOverlay);
+        imageCoachingOverlay.setVisibility(View.VISIBLE);
+        imageCoachingOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.setVisibility(View.GONE);
+
+                return false;
+            }
+        });
 
 
         batchRenderer = new BatchRenderer(this);
@@ -239,7 +251,9 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onResume();
         mGLSurfaceView.onResume();
-        track.start();
+        if(playing){
+            track.start();
+        }
         playing = true;
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -253,9 +267,9 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
-        track.pause();
-        playing = false;
-
+        if(!playing) {
+            track.pause();
+        }
 
         mSensorManager.unregisterListener(this);
         hasReferenceVector = false;
