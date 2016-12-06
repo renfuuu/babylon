@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -85,7 +86,10 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         configureSeekBar(cohereSlider);
 
         track = MainActivity.track;
-        track.start();
+        boolean playing = MainActivity.playing;
+        if(playing){
+            track.start();
+        }
     }
 
     private void configureSeekBar(SeekBar sb) {
@@ -139,6 +143,8 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         result.putExtra("coh", cohCoef);
 
         if(name.equals(null) || name == null || size == -1 || name.equals("")){
+            InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
             Snackbar.make(snackBarText, "Error! Enter correct values or Press Cancel", Snackbar.LENGTH_LONG).show();
         }
         else{

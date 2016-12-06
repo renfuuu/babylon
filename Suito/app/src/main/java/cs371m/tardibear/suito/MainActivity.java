@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     private boolean hasReferenceVector;
 
     static MediaPlayer track;
+    static boolean playing;
 
 
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity
         track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
         track.setLooping(true);
         track.start();
+        playing = true;
 
 
         initHardwareSensors();
@@ -238,6 +240,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         mGLSurfaceView.onResume();
         track.start();
+        playing = true;
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -251,6 +254,7 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         mGLSurfaceView.onPause();
         track.pause();
+        playing = false;
 
 
         mSensorManager.unregisterListener(this);
@@ -307,7 +311,17 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_play_pause) {
+            if(track.isPlaying()){
+                track.pause();
+                item.setIcon(R.drawable.ic_play_arrow_white_48dp);
+                playing = false;
+            }
+            else{
+                track.start();
+                item.setIcon(R.drawable.ic_pause_white_48dp);
+                playing = true;
+            }
             return true;
         }
 
