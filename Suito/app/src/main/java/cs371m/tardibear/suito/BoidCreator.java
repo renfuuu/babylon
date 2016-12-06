@@ -165,8 +165,21 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         // Ideally a game should implement onResume() and onPause()
         // to take appropriate action when the activity looses focus
         super.onPause();
-        track.pause();
-        MainActivity.playing = false;
+        if(MainActivity.playing){
+            track.pause();
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onResume();
+        if(MainActivity.playing){
+            track.start();
+        }
+
     }
 
 }

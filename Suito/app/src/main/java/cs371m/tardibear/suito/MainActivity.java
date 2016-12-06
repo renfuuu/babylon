@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity
         if(playing){
             track.start();
         }
-        playing = true;
+        // playing = true;
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -267,10 +267,10 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
-        if(!playing) {
+        if(playing){
             track.pause();
-            playing = false;
         }
+        // playing = false;
 
         mSensorManager.unregisterListener(this);
         hasReferenceVector = false;
