@@ -269,6 +269,7 @@ public class MainActivity extends AppCompatActivity
         mGLSurfaceView.onPause();
         if(!playing) {
             track.pause();
+            playing = false;
         }
 
         mSensorManager.unregisterListener(this);

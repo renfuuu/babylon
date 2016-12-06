@@ -88,8 +88,7 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         configureSeekBar(cohereSlider);
 
         track = MainActivity.track;
-        playing = MainActivity.playing;
-        if(playing){
+        if(MainActivity.playing){
             track.start();
         }
     }
@@ -167,7 +166,7 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         // to take appropriate action when the activity looses focus
         super.onPause();
         track.pause();
-        playing = false;
+        MainActivity.playing = false;
     }
 
 }
