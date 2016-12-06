@@ -1,4 +1,5 @@
 package cs371m.tardibear.suito.gfx;
+import android.animation.FloatArrayEvaluator;
 import android.opengl.Matrix;
 
 
@@ -7,6 +8,10 @@ import android.opengl.Matrix;
  */
 
 public class Camera {
+
+    private static final float ZOOM_NEAR_LIMIT = 0.1f;
+    private static final float ZOOM_DELTA = .75f;
+    private static final float ZOOM_FAR_LIMIT = 9.0f;
 
     private float[] pos = new float[3];
 
@@ -55,6 +60,20 @@ public class Camera {
 
     public void setUp(float x,float y,float z) {
         mUp[0]=x;mUp[1]=y;mUp[2]=z;
+    }
+
+    public void zoomIn() {
+        mEye[2] -= ZOOM_DELTA;
+        if( mEye[2] < ZOOM_NEAR_LIMIT) {
+            mEye[2] = ZOOM_NEAR_LIMIT;
+        }
+    }
+
+    public void zoomOut() {
+        mEye[2] += ZOOM_DELTA;
+        if( mEye[2] > ZOOM_FAR_LIMIT) {
+            mEye[2] = ZOOM_FAR_LIMIT;
+        }
     }
 
 

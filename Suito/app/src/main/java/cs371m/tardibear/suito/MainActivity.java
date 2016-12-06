@@ -324,6 +324,14 @@ public class MainActivity extends AppCompatActivity
             }
             return true;
         }
+        else if(id == R.id.zoom_in) {
+            batchRenderer.getRenderContext().getCamera().zoomIn();
+            batchRenderer.getRenderContext().getCamera().createViewMatrix();
+        }
+        else if(id == R.id.zoom_out){
+            batchRenderer.getRenderContext().getCamera().zoomOut();
+            batchRenderer.getRenderContext().getCamera().createViewMatrix();
+        }
 
         return super.onOptionsItemSelected(item);
     }
