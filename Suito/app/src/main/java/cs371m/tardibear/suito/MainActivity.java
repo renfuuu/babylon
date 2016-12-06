@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity
 
 //        Log.d("Sensor X", Graphics.tensorToString(x.asArray()));
 //        Log.d("Sensor Y", Graphics.tensorToString(y.asArray()));
-        Log.d("Sensor Z", Graphics.tensorToString(d.asArray()));
+//        Log.d("Sensor Z", Graphics.tensorToString(d.asArray()));
 //        Log.d("Sensor", Graphics.tensorToString((a.sub(b)).asArray()));
 //        Log.d("Sensor", Graphics.tensorToString(rotMatrix));
 
@@ -290,13 +290,13 @@ public class MainActivity extends AppCompatActivity
             float s = data.getFloatExtra("sep", .1f);
             float a = data.getFloatExtra("ali", .1f);
             float c = data.getFloatExtra("coh", .1f);
-            Log.d("MainActivity", "creating a new boid");
+//            Log.d("MainActivity", "creating a new boid");
             synchronized (batchRenderer.boids.getList()) {
                 batchRenderer.boids.addBoid(name, size, new Vec4(r, g, b, 1.0f), new Vec3(s, a, c));
             }
             adapter.setObjList(batchRenderer.boids.getList());
 
-            Log.d("MainActivity", "Flock size : " + batchRenderer.boids.size());
+//            Log.d("MainActivity", "Flock size : " + batchRenderer.boids.size());
         }
     }
 
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onTouch(View view, MotionEvent motionEvent) {
         StringBuilder sb = new StringBuilder();
         sb.append("x : ").append(motionEvent.getX()).append("y : ").append(motionEvent.getY());
-        Log.d("onTouch", sb.toString());
+//        Log.d("onTouch", sb.toString());
 
         RenderContext rc = batchRenderer.getRenderContext();
         float screenHeight = rc.getHeight();
@@ -396,12 +396,12 @@ public class MainActivity extends AppCompatActivity
 
         Matrix.multiplyMV(w_coor, 0, inv, 0, ndc, 0);
         if(w_coor[3] == 0) {
-            Log.e("onTouch", "divide by zero, wtf");
+//            Log.e("onTouch", "divide by zero, wtf");
             return false;
         }
         w_coor[0] /= w_coor[3];
         w_coor[1] /= w_coor[3];
-        Log.d("onTouch", Graphics.tensorToString(w_coor));
+//        Log.d("onTouch", Graphics.tensorToString(w_coor));
         batchRenderer.boids.gravitate(100.0f, new Vec3(w_coor[0], w_coor[1], 0.0f));
         return true;
     }

@@ -93,7 +93,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
         int[] temp = new int[1];
         GLES30.glGetIntegerv(GLES30.GL_MAX_UNIFORM_BLOCK_SIZE, IntBuffer.wrap(temp));
         int tempp = temp[0];
-        Log.d("onSurfaceCreate", "MAX_UNIFORM_BLOCK_SIZE = "+tempp);
+//        Log.d("onSurfaceCreate", "MAX_UNIFORM_BLOCK_SIZE = "+tempp);
 
 
 //        mShader = new Shader().attach(GLES30.GL_VERTEX_SHADER, Graphics.vShaderStr).attach(GLES30.GL_FRAGMENT_SHADER, Graphics.fShaderStr);
@@ -196,7 +196,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
                 renderable.setColor(b.getColor());
                 renderable.getModel().createModelMatrix();
                 renderable.draw(renderContext);
-                Log.d("renderloop", b.toString());
+//                Log.d("renderloop", b.toString());
             }
             boids.update();
         }
