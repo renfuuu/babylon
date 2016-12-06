@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.Arrays;
@@ -80,6 +81,17 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         hasReferenceVector = false;
+
+        ImageView imageCoachingOverlay = (ImageView) findViewById(R.id.imageCoachingOverlay);
+        imageCoachingOverlay.setVisibility(View.VISIBLE);
+        imageCoachingOverlay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                view.setVisibility(View.GONE);
+
+                return false;
+            }
+        });
 
 
         batchRenderer = new BatchRenderer(this);
