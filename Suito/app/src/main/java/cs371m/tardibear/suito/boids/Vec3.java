@@ -11,10 +11,20 @@ import java.util.Arrays;
 public class Vec3 {
     private float[] con;
 
+    public static Vec3 unitZ() {
+        return new Vec3(0,0,1);
+    }
+
+    public static Vec3 zero() {
+        return new Vec3(0,0,0);
+    }
+
     public Vec3() {
         con = new float[3];
     }
-
+    public Vec3 xy(){
+        return new Vec3(con[0], con[1], 0.0f);
+    }
     public Vec3(float x, float y, float z) {
         con = new float[] {x,y,z};
     }

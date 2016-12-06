@@ -16,6 +16,7 @@ public class Boid
 
     public static final float MAX_SPEED = 0.01f;
 
+    public static final float MAX_ACCER = 0.05f;
 
     public static Vec3 separate(Boid boid, List<Boid> flock, float desiredSep) {
         int count = 0;
@@ -39,7 +40,7 @@ public class Boid
     }
 
     public static Vec3 separate(Boid boid, List<Boid> flock) {
-       return separate(boid, flock, 1.5f);
+       return separate(boid, flock, 1.0f);
     }
 
     public static Vec3 cohesion(Boid boid, List<Boid> flock, float neighborhoodDist) {
@@ -213,16 +214,40 @@ public class Boid
         this.model = model;
     }
 
+
     public void update() {
+        updateAcceleration();
+        updateVelocity();
+        updateLocation();
+    }
+
+    public void updateLocation() {
+
+        location = location.add(velocity);
+
+//        acceleration.scale(0);
+    }
+
+    public void updateAcceleration() {
+        if(acceleration.len() > MAX_ACCER) {
+            acceleration.normalize();
+            acceleration.scale(MAX_ACCER);
+        }
+
+        if(location.len() > 5) {
+            acceleration = seek(Vec3.zero());
+            acceleration.normalize();
+            acceleration.scale(MAX_ACCER);
+        }
+    }
+
+    public void updateVelocity() {
         velocity = velocity.add(acceleration);
+
         if(velocity.len() > MAX_SPEED) {
             velocity.normalize();
             velocity.scale(MAX_SPEED);
         }
-        if(location.len() > 5) {
-            velocity.scale(-1.0f);
-        }
-        location = location.add(velocity);
     }
 
     public void applyIncentives(Vec3 a, Vec3 s, Vec3 c) {
@@ -234,8 +259,17 @@ public class Boid
         separateIncentive.scale(separateCoeff);
         cohereIncentive.scale(cohereCoeff);
 
+        applyForce(alignIncentive);
+        applyForce(cohereIncentive);
+        applyForce(separateIncentive);
+    }
 
-        acceleration = alignIncentive.add(separateIncentive).add(cohereIncentive);
+    public void applyForce(Vec3 a) {
+        acceleration = acceleration.add(a);
+    }
+
+    public void setForce(Vec3 a) {
+        acceleration = a;
     }
 
     public void setName(Flock flock){

@@ -205,4 +205,7 @@ public class BatchRenderer implements GLSurfaceView.Renderer{
     public void onPause(){}
     public void onResume(){}
 
+    public RenderContext getRenderContext() {
+        return renderContext;
+    }
 }

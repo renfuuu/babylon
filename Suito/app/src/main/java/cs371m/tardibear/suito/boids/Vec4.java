@@ -79,4 +79,8 @@ public class Vec4 {
                 "len=" +len()+
                 '}';
     }
+
+    public static Vec4 unitZ() {
+        return new Vec4(0,0,1,0);
+    }
 }

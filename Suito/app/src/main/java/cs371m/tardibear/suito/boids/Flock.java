@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 import cs371m.tardibear.suito.gfx.Graphics;
 
@@ -75,4 +76,15 @@ public class Flock {
         }
     }
 
+    public void gravitate(float v, Vec3 p) {
+        Vec3 pp = p.xy();
+        for (Boid b :
+                flock) {
+            Vec3 temp = b.seek(pp);
+            temp.normalize();
+            temp.scale(v);
+            b.applyForce(temp);
+            b.updateAcceleration();
+        }
+    }
 }

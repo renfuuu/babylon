@@ -11,10 +11,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,20 +28,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import cs371m.tardibear.suito.boids.BatchRenderer;
 import cs371m.tardibear.suito.boids.Vec3;
 import cs371m.tardibear.suito.boids.Vec4;
 import cs371m.tardibear.suito.gfx.Graphics;
+import cs371m.tardibear.suito.gfx.RenderContext;
 
 
 public class MainActivity extends AppCompatActivity
-        implements  NavigationView.OnNavigationItemSelectedListener,
-        SensorEventListener{
+        implements  NavigationView.OnNavigationItemSelectedListener, SensorEventListener, GLSurfaceView.OnTouchListener{
 
     private static final float EPSILON = 0.001f;
-    private final int CONTEXT_CLIENT_VERSION = 3;
+    private static final int CONTEXT_CLIENT_VERSION = 3;
     private GLSurfaceView mGLSurfaceView;
     private BatchRenderer batchRenderer;
     private ObjListAdapter adapter;
@@ -50,7 +53,13 @@ public class MainActivity extends AppCompatActivity
     private Sensor mSensor;
     private static final float nanoToSeconds  = 1.0f/1000000000.0f;
     private final float[] deviceRotationVector = new float[4];
+    private final float[] baseOrientationVector = new float[4];
+    private final float[] baseOrientationMatrix = new float[9]; //3x3
+    private final float[] currentOrientationMatrix = new float[9]; //3x3
+    private Vec3 delta = new Vec3();
     private float sensorTimestamp;
+
+    private boolean hasReferenceVector;
 
     static MediaPlayer track;
 
@@ -69,12 +78,10 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
+        hasReferenceVector = false;
 
 
         batchRenderer = new BatchRenderer(this);
-//        Log.d("OBJ_NAME", getIntent().getExtras().getString("OBJ_NAME"));
-//        Log.d("OBJ_DEFAULT", Boolean.toString(getIntent().getExtras().getBoolean("OBJ_DEFAULT")));
         batchRenderer.setObj("Triangle", true);
 
         mGLSurfaceView = (GLSurfaceView) findViewById(R.id.surface_view);
@@ -85,12 +92,12 @@ public class MainActivity extends AppCompatActivity
             // context, and set an OpenGL ES 3.0-compatible renderer.
             mGLSurfaceView.setEGLContextClientVersion ( CONTEXT_CLIENT_VERSION );
             mGLSurfaceView.setRenderer ( batchRenderer );
-            Log.d ( "Main", "OpenGL ES 3.2 supported on device.  Exiting..." );
+            Log.d ( "Main", "OpenGL ES 3.2 supported on device." );
 
         }
         else
         {
-            Log.e ( "SimpleTexture2D", "OpenGL ES 3.0 not supported on device.  Exiting..." );
+            Log.e ( "Super Boids Sim", "OpenGL ES 3.0 not supported on device.  Exiting..." );
             finish();
         }
 
@@ -128,6 +135,13 @@ public class MainActivity extends AppCompatActivity
         track = new MediaPlayer().create(getApplicationContext(), R.raw.pixelparty);
         track.setLooping(true);
         track.start();
+
+
+        initHardwareSensors();
+
+
+        mGLSurfaceView.setOnTouchListener(this);
+
     }
 
     private boolean detectOpenGLES30()
@@ -160,6 +174,7 @@ public class MainActivity extends AppCompatActivity
     public void onSensorChanged(SensorEvent event) {
 
 
+
         if(sensorTimestamp != 0) {
             final float dT = (event.timestamp - sensorTimestamp) * nanoToSeconds;
             float axisX = event.values[0];
@@ -182,10 +197,29 @@ public class MainActivity extends AppCompatActivity
             deviceRotationVector[3] = cosThetaOverTwo;
         }
         sensorTimestamp = event.timestamp;
-        float[] rotMatrix = new float[9];
 
+        if(!hasReferenceVector) {
+            System.arraycopy(baseOrientationVector, 0, deviceRotationVector, 0, deviceRotationVector.length);
+        }
+
+        float[] rotMatrix = new float[9];
+        float[] baseMatrix = new float[9];
+
+        if(!hasReferenceVector) {
+            SensorManager.getRotationMatrixFromVector(baseMatrix, deviceRotationVector);
+            hasReferenceVector = true;
+        }
         SensorManager.getRotationMatrixFromVector(rotMatrix, deviceRotationVector);
-        Log.d("Sensor", Graphics.tensorToString(rotMatrix));
+
+        Vec3 z  = new Vec3(rotMatrix[6], rotMatrix[7], rotMatrix[8]);
+
+        Vec3 d = Vec3.unitZ().sub(z);
+
+//        Log.d("Sensor X", Graphics.tensorToString(x.asArray()));
+//        Log.d("Sensor Y", Graphics.tensorToString(y.asArray()));
+        Log.d("Sensor Z", Graphics.tensorToString(d.asArray()));
+//        Log.d("Sensor", Graphics.tensorToString((a.sub(b)).asArray()));
+//        Log.d("Sensor", Graphics.tensorToString(rotMatrix));
 
     }
 
@@ -193,6 +227,7 @@ public class MainActivity extends AppCompatActivity
     public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
+
 
 
     @Override
@@ -204,6 +239,8 @@ public class MainActivity extends AppCompatActivity
         mGLSurfaceView.onResume();
         track.start();
 
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
     }
 
     @Override
@@ -214,6 +251,10 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         mGLSurfaceView.onPause();
         track.pause();
+
+
+        mSensorManager.unregisterListener(this);
+        hasReferenceVector = false;
     }
 
     @Override
@@ -291,6 +332,40 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("x : ").append(motionEvent.getX()).append("y : ").append(motionEvent.getY());
+        Log.d("onTouch", sb.toString());
+
+        RenderContext rc = batchRenderer.getRenderContext();
+        float screenHeight = rc.getHeight();
+        float screenWidth = rc.getWidth();
+
+        float[] m = new float[16];
+        float[] inv = new float[16];
+        Matrix.multiplyMM(m,0, rc.getPerspective(), 0, rc.getCamera().getViewMatrix(),0);
+        Matrix.invertM(inv, 0, m, 0);
+        int realY = (int)(screenHeight - motionEvent.getY());
+        float[] ndc = new float[4];
+        float[] w_coor = new float[4];
+        ndc[0] = (float)(motionEvent.getX()*2.0/screenWidth-1.0f);
+        ndc[1] = (float)(motionEvent.getY()*2.0/screenWidth-1.0f);
+        ndc[2] = -1.0f;
+        ndc[3] = 1.0f;
+
+        Matrix.multiplyMV(w_coor, 0, inv, 0, ndc, 0);
+        if(w_coor[3] == 0) {
+            Log.e("onTouch", "divide by zero, wtf");
+            return false;
+        }
+        w_coor[0] /= w_coor[3];
+        w_coor[1] /= w_coor[3];
+        Log.d("onTouch", Graphics.tensorToString(w_coor));
+        batchRenderer.boids.gravitate(100.0f, new Vec3(w_coor[0], w_coor[1], 0.0f));
         return true;
     }
 }
