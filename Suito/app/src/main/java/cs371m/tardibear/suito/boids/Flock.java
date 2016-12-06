@@ -50,7 +50,7 @@ public class Flock {
 
     public void addBoid(String name, float size,  Vec4 color, Vec3 coeffs) {
         Random r = new Random();
-        Boid b = new Boid(name, size, color, coeffs, Vec3.randomVec3(), Vec3.randomVec3(), this);
+        Boid b = new Boid(name, size, color, coeffs, Vec3.zero(), Vec3.randomVec3(), this);
         Log.d("Created: ", b.toString());
         flock.add(b);
     }

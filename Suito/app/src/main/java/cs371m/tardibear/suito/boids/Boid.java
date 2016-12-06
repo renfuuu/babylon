@@ -114,8 +114,6 @@ public class Boid
         this.size = size;
         this.location = location;
         this.velocity = steer;
-        velocity.scale(2.0f);
-        location.setZ(0);
         velocity.setZ(0);
         separateCoeff = incentives.asArray()[0];
         alignCoeff = incentives.asArray()[1];
