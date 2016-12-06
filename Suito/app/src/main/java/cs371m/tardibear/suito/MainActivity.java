@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private boolean hasReferenceVector;
 
     static MediaPlayer track;
-    static boolean playing;
+    static boolean playing = true;
 
 
 
@@ -239,7 +239,9 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onResume();
         mGLSurfaceView.onResume();
-        track.start();
+        if(playing){
+            track.start();
+        }
         playing = true;
 
         mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
@@ -253,9 +255,9 @@ public class MainActivity extends AppCompatActivity
         // to take appropriate action when the activity looses focus
         super.onPause();
         mGLSurfaceView.onPause();
-        track.pause();
-        playing = false;
-
+        if(!playing) {
+            track.pause();
+        }
 
         mSensorManager.unregisterListener(this);
         hasReferenceVector = false;

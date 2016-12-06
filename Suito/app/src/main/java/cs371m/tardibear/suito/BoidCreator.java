@@ -3,6 +3,7 @@ package cs371m.tardibear.suito;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -37,6 +38,7 @@ public class BoidCreator extends Activity implements View.OnClickListener {
     private TextView snackBarText;
 
     private MediaPlayer track;
+    boolean playing;
 
     @Override
     public void onCreate(Bundle savedInstanceBundle) {
@@ -86,7 +88,7 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         configureSeekBar(cohereSlider);
 
         track = MainActivity.track;
-        boolean playing = MainActivity.playing;
+        playing = MainActivity.playing;
         if(playing){
             track.start();
         }
@@ -145,12 +147,22 @@ public class BoidCreator extends Activity implements View.OnClickListener {
         if(name.equals(null) || name == null || size == -1 || name.equals("")){
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-            Snackbar.make(snackBarText, "Error! Enter correct values or Press Cancel", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(snackBarText, "Enter Correct Values or Press Cancel", Snackbar.LENGTH_LONG).show();
         }
         else{
             setResult(RESULT_OK, result);
             finish();
         }
+    }
+
+    @Override
+    protected void onPause()
+    {
+        // Ideally a game should implement onResume() and onPause()
+        // to take appropriate action when the activity looses focus
+        super.onPause();
+        track.pause();
+        playing = false;
     }
 
 }
